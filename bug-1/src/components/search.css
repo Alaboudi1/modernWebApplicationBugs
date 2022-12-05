@@ -1,0 +1,28 @@
+.searchInput {
+  width: 25%;
+  height: 25%;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  padding: 0.5rem;
+  background-color: #f5f5f5;
+  color: #333;
+}
+.searchButton {
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  padding: 0.45rem;
+  background-color: grey;
+  color: #fff;
+}
+.searchButton:hover {
+  background-color: rgb(64, 64, 64);
+  color: #fff;
+  cursor: pointer;
+}
+
+.searchButton:focus {
+  background-color: rgb(64, 64, 64);
+  color: #fff;
+}

@@ -1,0 +1,11 @@
+rules:
+- id: UseStateAPI
+  pattern: |
+      [...,$Y,...] = ...(...)
+      ...
+      $Y.$Z = ...
+      ...
+      $X($Y)
+  message: You used the useState API inccorectly
+  languages: [js]
+  severity: WARNING

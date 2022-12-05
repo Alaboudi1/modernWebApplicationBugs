@@ -1,0 +1,61 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 6fr 1fr;
+}
+.title {
+  grid-column: 1;
+  grid-row: 1;
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+}
+.movies {
+  grid-column: 1;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-self: center;
+  justify-self: center;
+  grid-gap: 1em;
+  text-align: center;
+}
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+body {
+  background-color: #282c34;
+
+  color: white;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.errorMessage {
+  color: red;
+  font-size: 1.5em;
+  text-align: center;
+}
+.spinner {
+  grid-column: 2;
+  grid-row: 2;
+  text-align: center;
+}

@@ -1,0 +1,9 @@
+rules:
+- id: NETWORK_1
+  pattern: |
+      $Y.$Z = {...}
+      ...
+      $X($Y)
+  message: You used the useState API inccorectly
+  languages: [js]
+  severity: WARNING

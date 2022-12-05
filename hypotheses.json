@@ -1,0 +1,528 @@
+{
+    "evidence": {
+        "API_calls": [
+            {
+                "functionName": "preventDefault",
+                "patterns": [
+                    {
+                        "pattern": "$E.preventDefault()"
+                    }
+                ],
+                "id": "API_1",
+                "description": "the default behavior for the event was prevented"
+            },
+            {
+                "patterns": [
+                    {
+                        "pattern": "fetch($URL). ... .then($X => $X.json())"
+                    }
+                ],
+                "id": "API_3",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "functionName": "getEventKey",
+                "patterns": [
+                    {
+                        "pattern-either": [
+                            {
+                                "pattern": "<$R\n...\nonKeyUp={...}\n.../>"
+                            },
+                            {
+                                "pattern": "<$R\n...\nonKeyDown={...}\n.../>"
+                            },
+                            {
+                                "pattern": "<$R\n...\nonKeyUp={...}\n...>\n...</$R>"
+                            },
+                            {
+                                "pattern": "<$R\n...\nonKeyDown={...}\n...>\n...</$R>"
+                            }
+                        ]
+                    }
+                ],
+                "id": "API_4",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "functionName": "onMouseOver",
+                "patterns": [
+                    {
+                        "pattern-either": [
+                            {
+                                "pattern": "<$R\n...\nonMouseOver={...}\n.../>"
+                            },
+                            {
+                                "pattern": "<$R\n...\nonMouseOver={...}\n...>\n...</$R>"
+                            }
+                        ]
+                    }
+                ],
+                "id": "API_5",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "functionName": "onMouseOut",
+                "patterns": [
+                    {
+                        "pattern-either": [
+                            {
+                                "pattern": "<$R\n...\nonMouseOut={...}\n.../>"
+                            },
+                            {
+                                "pattern": "<$R\n...\nonMouseOut={...}\n...>\n...</$R>"
+                            }
+                        ]
+                    }
+                ],
+                "id": "API_6",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "functionName": "useState",
+                "patterns": [
+                    {
+                        "pattern": "$Y(...)"
+                    },
+                    {
+                        "pattern-inside": "...\nconst [$X, $Y] = useState(...)\n..."
+                    }
+                ],
+                "id": "API_7",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "functionName": "useEffect",
+                "patterns": [
+                    {
+                        "pattern": "$R.style.transform = ..."
+                    },
+                    {
+                        "pattern-inside": "setTimeout(...)"
+                    },
+                    {
+                        "pattern-inside": "React.useEffect(...)"
+                    }
+                ],
+                "id": "API_8",
+                "description": "the state was updated inccorectly"
+            }
+        ],
+        "DOM_events": [
+            {
+                "objectShape": {
+                    "InputType": "submit",
+                    "type": "click"
+                },
+                "id": "EVENT_1",
+                "description": "the default behavior for the event was prevented"
+            },
+            {
+                "objectShape": {
+                    "InputType": "text",
+                    "type": "keydown"
+                },
+                "id": "EVENT_2",
+                "description": "the default behavior for the event was prevented"
+            },
+            {
+                "objectShape": {
+                    "type": "keydown",
+                    "target": "BUTTON"
+                },
+                "id": "EVENT_4",
+                "description": "the default behavior for the event was prevented"
+            },
+            {
+                "objectShape": {
+                    "type": "mouseover"
+                },
+                "id": "EVENT_6",
+                "description": "the default behavior for the event was prevented"
+            },
+            {
+                "objectShape": {
+                    "type": "mouseout"
+                },
+                "id": "EVENT_7",
+                "description": "the default behavior for the event was prevented"
+            },
+            {
+                "objectShape": {
+                    "type": "childList"
+                },
+                "id": "EVENT_3",
+                "description": "the default behavior for the event was prevented"
+            },
+            {
+                "objectShape": {
+                    "type": "attributes"
+                },
+                "id": "EVENT_5",
+                "description": "the default behavior for the event was prevented"
+            },
+            {
+                "objectShape": {
+                    "type": "click"
+                },
+                "id": "EVENT_8",
+                "description": "the default behavior for the event was prevented"
+            }
+        ],
+        "Network_events": [
+            {
+                "objectShape": {
+                    "type": "responseReceived",
+                    "mimeType": "text/html"
+                },
+                "id": "NETWORK_1",
+                "description": "the default behavior for the event was prevented"
+            },
+            {
+                "objectShape": {
+                    "type": "requestWillBeSent",
+                    "method": "GET"
+                },
+                "id": "NETWORK_2",
+                "description": "the default behavior for the event was prevented"
+            },
+            {
+                "objectShape": {
+                    "type": "responseReceived",
+                    "mimeType": "application/json"
+                },
+                "id": "NETWORK_3",
+                "description": "the default behavior for the event was prevented"
+            }
+        ]
+    },
+    "hypotheses": [
+        {
+            "id": "HYPOTHESIS_1",
+            "hypothesis": "You are not using 'preventDefault' API to prevent the default behavior of the submit button.",
+            "description": "When you use the submit button inside a form, the default behavior is to send the form data to the server and load a new page. However, this may not be the desired behavior, especially in React apps where you want to partially update the page.",
+            "tags": [
+                "incorrect add/remove item of a list of items",
+                "unexpected reload of the page"
+            ],
+            "evidence": [
+                {
+                    "rule": "EVENT_2",
+                    "description": "The first thing you did was typing in the input box.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "EVENT_1",
+                    "description": "The you clicked on the submit button, which triggered a submit event.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_1",
+                    "description": "However, you did not use the preventDefault API to prevent the default behavior of the submit button. This often happen inside onSubmit event handler inside the form.",
+                    "isFound": false,
+                    "DoesContainTheDefect": true,
+                    "HowToFix": {
+                        "steps": [
+                            {
+                                "description": "Start by searching for the onSubmit event handler inside the form inside this file.",
+                                "relatedEvidenceLocation": {
+                                    "rule": "EVENT_1",
+                                    "exactLocation": false
+                                }
+                            },
+                            {
+                                "description": "Inside the onSubmit event handler, add the preventDefault API to prevent the default behavior of the submit button.",
+                                "codeExample": "const XXXXX = (E)=>{\n E.preventDefault() // <-- use this API inside the onSubmit callback\n}"
+                            },
+                            {
+                                "description": "Now, when you click on the submit button, the page will not be reloaded."
+                            }
+                        ],
+                        "links": [
+                            {
+                                "title": "Understanding React's preventdefault()",
+                                "url": "https://sebhastian.com/react-preventdefault/#:~:text=To%20cancel%20the%20native%20behavior%20of%20the%20submit,inside%20handleSubmit%20will%20be%20run%20by%20the%20browser."
+                            },
+                            {
+                                "title": "React Official Docs for Handling Events",
+                                "url": "https://reactjs.org/docs/handling-events.html#:~:text=this%20could%20instead%20be"
+                            },
+                            {
+                                "title": "MDN preventDefault",
+                                "url": "https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault#syntax"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "rule": "NETWORK_1",
+                    "description": "The browser sent and received the data from the localhost server. However, this caused the page to reload since the submit behaior was not prevented.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "EVENT_3",
+                    "description": "The user interface was forced to render the initial state of the app after the page was reloaded.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                }
+            ]
+        },
+        {
+            "id": "HYPOTHESIS_2",
+            "hypothesis": "You are not parsing the data that came from the server.",
+            "description": "You requested data from a server and received it correctly. However, you did not parse it using the respose.json() API before using it, causing the program to either crash or incorrectly display the data.",
+            "tags": [
+                "incorrect add/remove item of a list of items",
+                "unexpected reload of the page",
+                "unable to render the data fetched from the server"
+            ],
+            "evidence": [
+                {
+                    "rule": "EVENT_2",
+                    "description": "You typed a query inside a text box. The program used this query to request data from the server.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "EVENT_1",
+                    "description": "You sent the query by clicking on the submit button.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "NETWORK_2",
+                    "description": "The program requested the data from the server.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "NETWORK_3",
+                    "description": "The program received the response as JSON object.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_3",
+                    "description": "After receiving the data from the server, you did not parse the data using respose.json(). Instead, you used the raw data.",
+                    "isFound": false,
+                    "DoesContainTheDefect": true,
+                    "HowToFix": {
+                        "steps": [
+                            {
+                                "description": "Located where the fetch API is in your code. Here is a potential location.",
+                                "relatedEvidenceLocation": {
+                                    "rule": "NETWORK_3",
+                                    "exactLocation": true
+                                }
+                            },
+                            {
+                                "description": "You need then to add the .json() API right after the fetch API.",
+                                "codeExample": "fetch('A URL')\n.then(response => response.json()) //<-- this line\n.then(...)"
+                            },
+                            {
+                                "description": "Try to rerun the code and see if the problem is fixed. If not, please use Hypothesizer again for further investigation."
+                            }
+                        ],
+                        "links": [
+                            {
+                                "title": "Using Fetch",
+                                "URL": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch"
+                            },
+                            {
+                                "title": "Fetch API",
+                                "URL": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "rule": "EVENT_3",
+                    "description": "The program rendered nothing or incorrect output.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                }
+            ]
+        },
+        {
+            "id": "HYPOTHESIS_3",
+            "hypothesis": "You did not attach the keyboard events handler to correct element.",
+            "description": "When you press a key on the keyboard, the browser will trigger a key event. You need to implement the correct event handler to listen to the key events and attach the event handler to the correct element.",
+            "tags": [
+                "no response when pressing a key on the keyboard",
+                "event listener is not working"
+            ],
+            "evidence": [
+                {
+                    "rule": "EVENT_1",
+                    "description": "The you clicked on an element on the interface, which made the broswer focus on the element.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "EVENT_4",
+                    "description": "Then you pressed key(s) on the keyboard, which triggered key events.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_4",
+                    "description": "You tried to listen to the key events using the onKeyPress event handler.",
+                    "isFound": false,
+                    "DoesContainTheDefect": true,
+                    "HowToFix": {
+                        "steps": [
+                            {
+                                "description": "The event was triggered from the element highlighted. However, you either did not implement the event handler correctly or you attached the event handler to the wrong element. Search for where the event handler is implemented now inside the file. Search for onKeyUp, onKeyDown, or onKeyPress. Remove the event handler from the element if you find it.",
+                                "relatedEvidenceLocation": {
+                                    "rule": "EVENT_4",
+                                    "exactLocation": true
+                                }
+                            },
+                            {
+                                "description": "You need to add the correct event handler to the highlighted element in the above file. For example, try onkeyUp or onKeyDown.",
+                                "codeExample": "...\n<XXX\nonKeyUp={callback}> // <-- add this inside to the element highlight above. Please use the approprate callback.\n</XXX>\n..."
+                            },
+                            {
+                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+                            }
+                        ],
+                        "links": [
+                            {
+                                "title": "Type the onKeyUp event in React",
+                                "url": "https://bobbyhadz.com/blog/typescript-react-onkeyup-event-type"
+                            },
+                            {
+                                "title": "Handling Events",
+                                "url": "https://reactjs.org/docs/handling-events.html"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "id": "HYPOTHESIS_4",
+            "hypothesis": "You are only handling onmouseOver event, but not onmouseOut event.",
+            "description": "When you hover over an element, the browser will trigger a mouseOver event. When you move the mouse out of the element, the browser will trigger a mouseOut event. You need to implement the correct event handler to listen to the mouse events and attach the event handler to the correct element.",
+            "tags": [
+                "no response when moving the mouse out of an element",
+                "event listener is not working",
+                "incorrect style of an element"
+            ],
+            "evidence": [
+                {
+                    "rule": "EVENT_6",
+                    "description": "You hovered over element(s) on the interface, which triggered mouseOver events.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_5",
+                    "description": "The code hanlded the mouseOver event using the onmouseOver event handler.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "EVENT_7",
+                    "description": "You moved the mouse out of the element(s) on the interface, which triggered mouseOut events.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_6",
+                    "description": "The code did not handle the mouseOut event using the onmouseOut event handler.",
+                    "isFound": true,
+                    "DoesContainTheDefect": true,
+                    "HowToFix": {
+                        "steps": [
+                            {
+                                "description": "The event was triggered from the element highlighted. However, you either did not implement the event handler correctly or you attached the event handler to the wrong element. Search for where the event handler is implemented now inside the file. Search for onmouseOver. Remove the event handler from the element if you find it.",
+                                "relatedEvidenceLocation": {
+                                    "rule": "EVENT_6",
+                                    "exactLocation": true
+                                }
+                            },
+                            {
+                                "description": "You need to add the correct event handler to the highlighted element in the above file. For example, try onmouseOut.",
+                                "codeExample": "...\n<XXX\nonmouseOut={callback}> // <-- add this inside to the element highlight above. Please use the approprate callback.\n</XXX>\n..."
+                            },
+                            {
+                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+                            }
+                        ],
+                        "links": [
+                            {
+                                "title": "Type the onmouseOut event in React",
+                                "url": "https://bobbyhadz.com/blog/typescript-react-onmouseOut-event-type"
+                            },
+                            {
+                                "title": "Handling Events",
+                                "url": "https://reactjs.org/docs/handling-events.html"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "id": "HYPOTHESIS_5",
+            "hypothesis": "You need to apply the annimation inside setTimeout and useEffect.",
+            "description": "After React add/update an element in the DOM, it will execute the related useEffect hook. You need to apply the annimation inside the related useEffect hook by using setTimeout.",
+            "tags": [
+                "annimation is not working"
+            ],
+            "evidence": [
+                {
+                    "rule": "EVENT_8",
+                    "description": "You clicked on an Element on the Interface",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_7",
+                    "description": "You updated the state of the element(s) using the setState function.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "EVENT_3",
+                    "description": "Updating the state cuased the element to be updated in the DOM.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_8",
+                    "description": "After the DOM was updated, the useEffect hook was executed. However, the annimation was not applied inside setTimeout. This caused the annimation to not work as expected.",
+                    "isFound": false,
+                    "DoesContainTheDefect": true,
+                    "HowToFix": {
+                        "steps": [
+                            {
+                                "description": "The event was triggered from the element highlighted. However, you either did not implement the event handler correctly or you attached the event handler to the wrong element. Search for where the event handler is implemented now inside the file. Search for onmouseOver. Remove the event handler from the element if you find it.",
+                                "relatedEvidenceLocation": {
+                                    "rule": "API_7",
+                                    "exactLocation": true
+                                }
+                            },
+                            {
+                                "description": "You need to add the correct event handler to the highlighted element in the above file. For example, try onmouseOut.",
+                                "codeExample": "...\n<XXX\nonmouseOut={callback}> // <-- add this inside to the element highlight above. Please use the approprate callback.\n</XXX>\n..."
+                            },
+                            {
+                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+                            }
+                        ],
+                        "links": [
+                            {
+                                "title": "Animation Classes & useEffect Hooks",
+                                "url": "https://dev.to/avatarkaleb/animation-classes-useeffect-hooks-is-there-a-better-way-2hfn"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

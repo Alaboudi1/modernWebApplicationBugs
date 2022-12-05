@@ -1,0 +1,16 @@
+.highlight {
+    color: red;
+    text-decoration: line-under;
+    font-size: xx-large;
+    cursor: pointer;
+    text-shadow: 2px 2px 2px #ccc;
+
+
+}
+
+.todo {
+    align-items: center;
+    display: flex;
+    font-size: 18px;
+    justify-content: space-between;
+}
