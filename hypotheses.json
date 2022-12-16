@@ -387,7 +387,7 @@
                     "HowToFix": {
                         "steps": [
                             {
-                                "description": "The event was triggered from the element highlighted. However, you either did not implement the event handler correctly or you attached the event handler to the wrong element. Search for where the event handler is implemented now inside the file. Search for onKeyUp, onKeyDown, or onKeyPress. Remove the event handler from the element if you find it.",
+                                "description": "The event was triggered from the element highlighted. However, you either did not implement the event handler correctly for that element or you attached the event handler to another element.",
                                 "relatedEvidenceLocation": {
                                     "rule": "EVENT_4",
                                     "exactLocation": true
@@ -399,6 +399,9 @@
                             },
                             {
                                 "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+                            },
+                            {
+                                "description": "Extra step: remove any other onKeyUp, onKeyDown, or onKeyPress you attached to other incorrect elements."
                             }
                         ],
                         "links": [
