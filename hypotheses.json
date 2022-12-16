@@ -105,6 +105,19 @@
                 ],
                 "id": "API_8",
                 "description": "the state was updated inccorectly"
+            },
+            {
+                "functionName": "useEffect",
+                "patterns": [
+                    {
+                        "pattern": "$R.style.transform = ..."
+                    },
+                    {
+                        "pattern-inside": "React.useEffect(...)"
+                    }
+                ],
+                "id": "API_9",
+                "description": "the state was updated inccorectly"
             }
         ],
         "DOM_events": [
@@ -493,22 +506,28 @@
                     "DoesContainTheDefect": false
                 },
                 {
+                    "rule": "API_9",
+                    "description": "You applied the annimation inside the useEffect hook.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
                     "rule": "API_8",
-                    "description": "After the DOM was updated, the useEffect hook was executed. However, the annimation was not applied inside setTimeout. This caused the annimation to not work as expected.",
+                    "description": "However, you did not apply the annimation inside setTimeout, which means the annimation may be applied before the element is updated in the DOM.",
                     "isFound": false,
                     "DoesContainTheDefect": true,
                     "HowToFix": {
                         "steps": [
                             {
-                                "description": "The event was triggered from the element highlighted. However, you either did not implement the event handler correctly or you attached the event handler to the wrong element. Search for where the event handler is implemented now inside the file. Search for onmouseOver. Remove the event handler from the element if you find it.",
+                                "description": "Find the related useEffect hook in the file that applied the annimation. Here is acandidate useEffect hook that you may want to check.",
                                 "relatedEvidenceLocation": {
-                                    "rule": "API_7",
+                                    "rule": "API_9",
                                     "exactLocation": true
                                 }
                             },
                             {
-                                "description": "You need to add the correct event handler to the highlighted element in the above file. For example, try onmouseOut.",
-                                "codeExample": "...\n<XXX\nonmouseOut={callback}> // <-- add this inside to the element highlight above. Please use the approprate callback.\n</XXX>\n..."
+                                "description": "Add setTimeout to the useEffect hook.",
+                                "codeExample": "...\nuseEffect(() => {\nsetTimeout(() => {\n// apply annimation here\n}, 0);\n}, []);\n..."
                             },
                             {
                                 "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
