@@ -9,11 +9,11 @@ import "./App.css";
 export const App = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const fetchMovies = (searchValue: string): void => {
+  const fetchMovies = (searchValues: string): void => {
     dispatch({
       type: "SEARCH_MOVIES_REQUEST",
     });
-    fetch(`https://www.omdbapi.com/?s=${searchValue}&apikey=4a3b711b`).then(
+    fetch(`https://www.omdbapi.com/?s=${searchValues}&apikey=4a3b711b`).then(
       (movies) => {
         if (movies) {
           dispatch({

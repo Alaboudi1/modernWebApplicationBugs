@@ -332,7 +332,7 @@
                             },
                             {
                                 "description": "You need then to add the .json() API right after the fetch API.",
-                                "codeExample": "fetch('A URL')\n.then(response => response.json()) //<-- this line\n.then(...)"
+                                "codeExample": "fetch('A URL')\n.then(response => response.json()) // <-- add this line\n.then(...)"
                             },
                             {
                                 "description": "Try to rerun the code and see if the problem is fixed. If not, please use Hypothesizer again for further investigation."
