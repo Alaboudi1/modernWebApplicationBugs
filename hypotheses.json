@@ -349,12 +349,6 @@
                             }
                         ]
                     }
-                },
-                {
-                    "rule": "EVENT_3",
-                    "description": "The program rendered nothing or incorrect output.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
                 }
             ]
         },
@@ -369,7 +363,7 @@
             "evidence": [
                 {
                     "rule": "EVENT_1",
-                    "description": "The you clicked on an element on the interface, which made the broswer focus on the element.",
+                    "description": "The you clicked on a button on the interface, which made the broswer focus on the element.",
                     "isFound": true,
                     "DoesContainTheDefect": false
                 },
@@ -381,14 +375,13 @@
                 },
                 {
                     "rule": "API_4",
-                    "description": "You tried to listen to the key events using the onKeyPress event handler.",
+                    "description": "However,  You either completely did not implement the event handler or you attached the event handler to the wrong element.",
                     "isFound": false,
                     "DoesContainTheDefect": true,
                     "HowToFix": {
                         "steps": [
                             {
-                                "description": "The event was triggered from the element highlighted. However, you either did not implement the event handler correctly for that element or you attached the event handler to another element.",
-                                "relatedEvidenceLocation": {
+                                "description": "The event was triggered from the element highlighted. However, there is no event handler attached to this element. Please see the highlighted code.""relatedEvidenceLocation": {
                                     "rule": "EVENT_4",
                                     "exactLocation": true
                                 }
