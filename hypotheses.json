@@ -381,7 +381,8 @@
                     "HowToFix": {
                         "steps": [
                             {
-                                "description": "The event was triggered from the element highlighted. However, there is no event handler attached to this element. Please see the highlighted code.""relatedEvidenceLocation": {
+                                "description": "The event was triggered from the element highlighted. However, there is no event handler attached to this element. Please see the highlighted code.",
+                                "relatedEvidenceLocation": {
                                     "rule": "EVENT_4",
                                     "exactLocation": true
                                 }
