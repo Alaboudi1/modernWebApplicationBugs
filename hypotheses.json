@@ -118,6 +118,28 @@
                 ],
                 "id": "API_9",
                 "description": "the state was updated inccorectly"
+            },
+            {
+                "patterns": [
+                    {
+                        "pattern-either": [
+                            {
+                                "pattern": "<$R\n...\nonKeyUp={...}\n.../>"
+                            },
+                            {
+                                "pattern": "<$R\n...\nonKeyDown={...}\n.../>"
+                            },
+                            {
+                                "pattern": "<$R\n...\nonKeyUp={...}\n...>\n...</$R>"
+                            },
+                            {
+                                "pattern": "<$R\n...\nonKeyDown={...}\n...>\n...</$R>"
+                            }
+                        ]
+                    }
+                ],
+                "id": "API_10",
+                "description": "the state was updated inccorectly"
             }
         ],
         "DOM_events": [
@@ -284,68 +306,68 @@
         },
         {
             "id": "HYPOTHESIS_2",
-            "hypothesis": "You are not parsing the data that came from the server.",
-            "description": "You requested data from a server and received it correctly. However, you did not parse it using the respose.json() API before using it, causing the program to either crash or incorrectly display the data.",
+            "hypothesis": "The data received from the server is not being parsed, resulting in the program not rendering anything",
+            "description": "Data was requested from a server and received successfully. However, the data was not parsed using the response.json() API before it was used, causing the program to either crash or display the data incorrectly.",
             "tags": [
-                "incorrect add/remove item of a list of items",
-                "unexpected reload of the page",
-                "unable to render the data fetched from the server"
+                "Incorrect list item addition/removal",
+                "Rendering an empty page",
+                "Unable to render data fetched from the server"
             ],
             "evidence": [
                 {
                     "rule": "EVENT_2",
-                    "description": "You typed a query inside a text box. The program used this query to request data from the server.",
+                    "description": "A query was typed into a text box and the program used this query to request data from the server.",
                     "isFound": true,
                     "DoesContainTheDefect": false
                 },
                 {
                     "rule": "EVENT_1",
-                    "description": "You sent the query by clicking on the submit button.",
+                    "description": "The query was sent by clicking on the submit button.",
                     "isFound": true,
                     "DoesContainTheDefect": false
                 },
                 {
                     "rule": "NETWORK_2",
-                    "description": "The program requested the data from the server.",
+                    "description": "The program successfully requested the data from the server.",
                     "isFound": true,
                     "DoesContainTheDefect": false
                 },
                 {
                     "rule": "NETWORK_3",
-                    "description": "The program received the response as JSON object.",
+                    "description": "The program received the response as a JSON object.",
                     "isFound": true,
                     "DoesContainTheDefect": false
                 },
                 {
                     "rule": "API_3",
-                    "description": "After receiving the data from the server, you did not parse the data using respose.json(). Instead, you used the raw data.",
+                    "description": "The data was not parsed using response.json() after being received from the server. Instead, the raw data was used.",
                     "isFound": false,
                     "DoesContainTheDefect": true,
                     "HowToFix": {
                         "steps": [
                             {
-                                "description": "Located where the fetch API is in your code. Here is a potential location.",
+                                "description": "Locate where the fetch API is being used in your code. A potential location is shown in the follwing file.",
                                 "relatedEvidenceLocation": {
                                     "rule": "NETWORK_3",
                                     "exactLocation": true
                                 }
                             },
                             {
-                                "description": "You need then to add the .json() API right after the fetch API.",
+                                "description": "Add the .json() API immediately after the fetch API.",
                                 "codeExample": "fetch('A URL')\n.then(response => response.json()) // <-- add this line\n.then(...)"
                             },
                             {
-                                "description": "Try to rerun the code and see if the problem is fixed. If not, please use Hypothesizer again for further investigation."
+                                "description": "Rerun the code to see if the issue has been resolved. If the problem persists, use the Hypothesizer for further investigation."
                             }
                         ],
                         "links": [
                             {
                                 "title": "Using Fetch",
-                                "URL": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch"
+                                "url": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch"
                             },
                             {
                                 "title": "Fetch API",
-                                "URL": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API"
+                                "url": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API"
                             }
                         ]
                     }
@@ -354,57 +376,67 @@
         },
         {
             "id": "HYPOTHESIS_3",
-            "hypothesis": "You did not attach the keyboard events handler to correct element.",
-            "description": "When you press a key on the keyboard, the browser will trigger a key event. You need to implement the correct event handler to listen to the key events and attach the event handler to the correct element.",
+            "hypothesis": "The event listener for keyboard events is not attached to the correct element",
+            "description": "When a key is pressed on the keyboard, the browser triggers a key event. The event listener must be implemented and attached to the appropriate element to respond to these key events.",
             "tags": [
-                "no response when pressing a key on the keyboard",
-                "event listener is not working"
+                "No response when pressing keys on the keyboard",
+                "Event listener not working"
             ],
             "evidence": [
                 {
                     "rule": "EVENT_1",
-                    "description": "The you clicked on a button on the interface, which made the broswer focus on the element.",
+                    "description": "A button on the interface was clicked, causing the browser to focus on a specific element, but no response was observed.",
                     "isFound": true,
                     "DoesContainTheDefect": false
                 },
                 {
                     "rule": "EVENT_4",
-                    "description": "Then you pressed key(s) on the keyboard, which triggered key events.",
+                    "description": "Key(s) were pressed on the keyboard, triggering keybord events.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_10",
+                    "description": "However, the callback (onKeyDown or onKeyUp) is attached to different element than the one that received the key event.",
                     "isFound": true,
                     "DoesContainTheDefect": false
                 },
                 {
                     "rule": "API_4",
-                    "description": "However,  You either completely did not implement the event handler or you attached the event handler to the wrong element.",
+                    "description": "The event listener is attached to the incorrect element.",
                     "isFound": false,
                     "DoesContainTheDefect": true,
                     "HowToFix": {
                         "steps": [
                             {
-                                "description": "The event was triggered from the element highlighted. However, there is no event handler attached to this element. Please see the highlighted code.",
+                                "description": "Locate the element that has the event listener attached to it but does not receive the key event. A potential location is shown in the following file.",
+                                "relatedEvidenceLocation": {
+                                    "rule": "API_10",
+                                    "exactLocation": true
+                                }
+                            },
+                            {
+                                "description": "Located the element that receives the key event but does not have the event listener attached to it. A potential location is shown in the following file.",
                                 "relatedEvidenceLocation": {
                                     "rule": "EVENT_4",
                                     "exactLocation": true
                                 }
                             },
                             {
-                                "description": "You need to add the correct event handler to the highlighted element in the above file. For example, try onkeyUp or onKeyDown.",
-                                "codeExample": "...\n<XXX\nonKeyUp={callback}> // <-- add this inside to the element highlight above. Please use the approprate callback.\n</XXX>\n..."
+                                "description": "Attach the event listener to the correct element. Remove event listeners such as `onKeyUp` or `onKeyDown` from the incorrect element and add them to the correct element.",
+                                "codeExample": "...\n<ElementInStep1\nonKeyUp={callback}> // <-- remove this\n</ElementInStep1>\n ...\n<ElementInStep2\nonKeyUp={callback}> // <-- add this\n</ElementInStep2>\n ..."
                             },
                             {
-                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
-                            },
-                            {
-                                "description": "Extra step: remove any other onKeyUp, onKeyDown, or onKeyPress you attached to other incorrect elements."
+                                "description": "Run the code again and check if the issue has been resolved. If not, use Hypothesizer for further investigation."
                             }
                         ],
                         "links": [
                             {
-                                "title": "Type the onKeyUp event in React",
+                                "title": "Using the onKeyUp event in React",
                                 "url": "https://bobbyhadz.com/blog/typescript-react-onkeyup-event-type"
                             },
                             {
-                                "title": "Handling Events",
+                                "title": "Handling Events in React",
                                 "url": "https://reactjs.org/docs/handling-events.html"
                             }
                         ]
