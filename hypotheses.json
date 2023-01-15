@@ -140,6 +140,18 @@
                 ],
                 "id": "API_10",
                 "description": "the state was updated inccorectly"
+            },
+            {
+                "patterns": [
+                    {
+                        "pattern": "const $Y = (...) => {...}"
+                    },
+                    {
+                        "pattern-inside": "const $E = (...) => {... return (<form onSubmit={$Y}>...</form>);...}"
+                    }
+                ],
+                "id": "API_11",
+                "description": "the state was updated inccorectly"
             }
         ],
         "DOM_events": [
@@ -253,6 +265,12 @@
                     "DoesContainTheDefect": false
                 },
                 {
+                    "rule": "API_11",
+                    "description": "The submit event was handled by a callback triggered after the submit event.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
                     "rule": "API_1",
                     "description": "However, you did not use the preventDefault API to prevent the default behavior of the submit button. This often happen inside onSubmit event handler inside the form.",
                     "isFound": false,
@@ -262,13 +280,13 @@
                             {
                                 "description": "Start by searching for the onSubmit event handler inside the form inside this file.",
                                 "relatedEvidenceLocation": {
-                                    "rule": "EVENT_1",
-                                    "exactLocation": false
+                                    "rule": "API_11",
+                                    "exactLocation": true
                                 }
                             },
                             {
                                 "description": "Inside the onSubmit event handler, add the preventDefault API to prevent the default behavior of the submit button.",
-                                "codeExample": "const XXXXX = (E)=>{\n E.preventDefault() // <-- use this API inside the onSubmit callback\n}"
+                                "codeExample": "const XXXXX = (e)=>{\n e.preventDefault() // <-- use this API inside the onSubmit callback\n}"
                             },
                             {
                                 "description": "Now, when you click on the submit button, the page will not be reloaded."
@@ -292,13 +310,7 @@
                 },
                 {
                     "rule": "NETWORK_1",
-                    "description": "The browser sent and received the data from the localhost server. However, this caused the page to reload since the submit behaior was not prevented.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "EVENT_3",
-                    "description": "The user interface was forced to render the initial state of the app after the page was reloaded.",
+                    "description": "The browser reload since the submit behaior was not prevented.",
                     "isFound": true,
                     "DoesContainTheDefect": false
                 }
