@@ -487,14 +487,14 @@
                 {
                     "rule": "API_6",
                     "description": "The code did not handle the mouseOut event using the onmouseOut event handler.",
-                    "isFound": true,
+                    "isFound": false,
                     "DoesContainTheDefect": true,
                     "HowToFix": {
                         "steps": [
                             {
                                 "description": "The event was triggered from the element highlighted. However, you either did not implement the event handler correctly or you attached the event handler to the wrong element. Search for where the event handler is implemented now inside the file. Search for onmouseOver. Remove the event handler from the element if you find it.",
                                 "relatedEvidenceLocation": {
-                                    "rule": "EVENT_6",
+                                    "rule": "API_5",
                                     "exactLocation": true
                                 }
                             },
@@ -522,7 +522,7 @@
         },
         {
             "id": "HYPOTHESIS_5",
-            "hypothesis": "You need to apply the annimation inside setTimeout and useEffect.",
+            "hypothesis": "You need to apply the animation inside setTimeout and useEffect.",
             "description": "After React add/update an element in the DOM, it will execute the related useEffect hook. You need to apply the annimation inside the related useEffect hook by using setTimeout.",
             "tags": [
                 "annimation is not working"

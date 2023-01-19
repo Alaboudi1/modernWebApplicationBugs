@@ -1,0 +1,31 @@
+{
+    "required": [
+        "listEvidence",
+        "hypotheses"
+    ],
+    "properties": {
+        "listEvidence": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "evidenceType",
+                    "evidenceId",
+                    "evidenceShape"
+                ]
+            }
+        },
+        "hypotheses": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "description",
+                    "bugTags",
+                    "listEvidence"
+                ]
+            }
+        }
+    }
+}
