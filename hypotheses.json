@@ -66,10 +66,16 @@
                     {
                         "pattern-either": [
                             {
-                                "pattern": "<$R\n...\nonMouseOut={...}\n.../>"
+                                "pattern": "<$R\n...\nonMouseOut={...}\n \nonMouseOver={...}\n.../>"
                             },
                             {
-                                "pattern": "<$R\n...\nonMouseOut={...}\n...>\n...</$R>"
+                                "pattern": "<$R\n...\nonMouseOut={...}\n \nonMouseOver={...}\n...>\n...</$R>"
+                            },
+                            {
+                                "pattern": "<$R\n...\nonMouseOver={...}\n \nonMouseOut={...}\n.../>"
+                            },
+                            {
+                                "pattern": "<$R\n...\nonMouseOver={...}\n \nonMouseOut={...}\n...>\n...</$R>"
                             }
                         ]
                     }
@@ -147,10 +153,110 @@
                         "pattern": "const $Y = (...) => {...}"
                     },
                     {
-                        "pattern-inside": "const $E = (...) => {... return (<form onSubmit={$Y}>...</form>);...}"
+                        "pattern-inside": "const $X = (...) => {... return (<form onSubmit={$Y}>...</form>);...}"
+                    },
+                    {
+                        "pattern-not": "const $Y = ($T) => {... $T.preventDefault(); ...}"
                     }
                 ],
                 "id": "API_11",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "patterns": [
+                    {
+                        "pattern": "<$R ...>...<div ...>...</div>...<button ... onClick={...}>... </button>...</$R>"
+                    }
+                ],
+                "id": "API_12",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "patterns": [
+                    {
+                        "pattern": "<button ... onClick={...}>...</button>"
+                    }
+                ],
+                "id": "API_13",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "patterns": [
+                    {
+                        "pattern": "<button onClick={...}> ... </button>"
+                    },
+                    {
+                        "pattern-inside": "$ITEMS.map((...) => (...))"
+                    }
+                ],
+                "id": "API_14",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "patterns": [
+                    {
+                        "pattern-inside": "const $HANDLE = ($ID) => {<...$CALL($ID)...>};\n$...S\n"
+                    },
+                    {
+                        "focus-metavariable": "$HANDLE"
+                    },
+                    {
+                        "metavariable-pattern": {
+                            "metavariable": "$...S",
+                            "patterns": [
+                                {
+                                    "pattern": "<$EL ... onClick={$HANDLE}></$EL>\n"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "id": "API_15",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "patterns": [
+                    {
+                        "pattern": "<button ...onClick={...}> ... </button>"
+                    },
+                    {
+                        "pattern-inside": "<form onSubmit={...}>\n...\n</form>\n"
+                    }
+                ],
+                "id": "API_16",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "patterns": [
+                    {
+                        "pattern": "<button ...onClick={...}> ... </button>"
+                    },
+                    {
+                        "pattern-not": "<button ...onClick={...} ... type=\"button\"> ... </button>"
+                    }
+                ],
+                "id": "API_17",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "patterns": [
+                    {
+                        "pattern": "<input ... type=\"radio\" onClick={...} ... />"
+                    },
+                    {
+                        "pattern-inside": "$R.map((...) => (...))"
+                    }
+                ],
+                "id": "API_18",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "patterns": [
+                    {
+                        "pattern": "<label> {$R.map((...) => (...))} </label>"
+                    }
+                ],
+                "id": "API_19",
                 "description": "the state was updated inccorectly"
             }
         ],
@@ -212,6 +318,30 @@
                     "type": "click"
                 },
                 "id": "EVENT_8",
+                "description": "the default behavior for the event was prevented"
+            },
+            {
+                "objectShape": {
+                    "target": "DIV",
+                    "type": "click"
+                },
+                "id": "EVENT_9",
+                "description": "the default behavior for the event was prevented"
+            },
+            {
+                "objectShape": {
+                    "target": "BUTTON",
+                    "type": "click"
+                },
+                "id": "EVENT_10",
+                "description": "the default behavior for the event was prevented"
+            },
+            {
+                "objectShape": {
+                    "InputType": "radio",
+                    "type": "click"
+                },
+                "id": "EVENT_11",
                 "description": "the default behavior for the event was prevented"
             }
         ],
@@ -327,13 +457,7 @@
             ],
             "evidence": [
                 {
-                    "rule": "EVENT_2",
-                    "description": "A query was typed into a text box and the program used this query to request data from the server.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "EVENT_1",
+                    "rule": "EVENT_8",
                     "description": "The query was sent by clicking on the submit button.",
                     "isFound": true,
                     "DoesContainTheDefect": false
@@ -461,9 +585,7 @@
             "hypothesis": "You are only handling onmouseOver event, but not onmouseOut event.",
             "description": "When you hover over an element, the browser will trigger a mouseOver event. When you move the mouse out of the element, the browser will trigger a mouseOut event. You need to implement the correct event handler to listen to the mouse events and attach the event handler to the correct element.",
             "tags": [
-                "no response when moving the mouse out of an element",
-                "event listener is not working",
-                "incorrect style of an element"
+                "no response when moving the mouse out of an element"
             ],
             "evidence": [
                 {
@@ -578,6 +700,266 @@
                             {
                                 "title": "Animation Classes & useEffect Hooks",
                                 "url": "https://dev.to/avatarkaleb/animation-classes-useeffect-hooks-is-there-a-better-way-2hfn"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "id": "HYPOTHESIS_6",
+            "hypothesis": "You are not alighing the elements correctly, which causes the elements to overlap",
+            "description": "There is an html that colluded with the button you are trying to click. You need to align the elements correctly to avoid the colusion.",
+            "tags": [
+                "button is not clickable"
+            ],
+            "evidence": [
+                {
+                    "rule": "EVENT_9",
+                    "description": "You clicked on an DIV element on the Interface",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "EVENT_10",
+                    "description": "However, you did not click on any button element.",
+                    "isFound": false,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_12",
+                    "description": "The reason might be that the button is not clickable because it is covered by the other div element.",
+                    "isFound": true,
+                    "DoesContainTheDefect": true,
+                    "HowToFix": {
+                        "steps": [
+                            {
+                                "description": "The button is covered by this div element. You need to align the div element correctly to avoid the colusion.",
+                                "relatedEvidenceLocation": {
+                                    "rule": "EVENT_9",
+                                    "exactLocation": true
+                                }
+                            },
+                            {
+                                "description": "You can also change the z-index of the div element or the button element to avoid the colusion.",
+                                "relatedEvidenceLocation": {
+                                    "rule": "API_12",
+                                    "exactLocation": true
+                                }
+                            }
+                        ],
+                        "links": [
+                            {
+                                "title": "How to align elements in CSS",
+                                "url": "https://www.w3schools.com/css/css_align.asp"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "id": "HYPOTHESIS_7",
+            "hypothesis": " You are not explicitly passing the props to the onClick event handler.",
+            "description": "The onclick handler needs to be explicitly passed the props to the callback function.",
+            "tags": [
+                "clicking on the button behaves unexpectedly"
+            ],
+            "evidence": [
+                {
+                    "rule": "EVENT_10",
+                    "description": "You clicked on an Button element on the Interface",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_14",
+                    "description": "You this trigger the onClick event handler in one of the buttons generated by the map function.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_15",
+                    "description": "However, you did not pass any props to the onClick event handler.",
+                    "isFound": true,
+                    "DoesContainTheDefect": true,
+                    "HowToFix": {
+                        "steps": [
+                            {
+                                "description": "Find the related onClick event handler in the file that is called when you click on the button. Here is acandidate onClick event handler that you may want to check.",
+                                "relatedEvidenceLocation": {
+                                    "rule": "API_14",
+                                    "exactLocation": true
+                                }
+                            },
+                            {
+                                "description": "Pass the props to the onClick event handler.",
+                                "codeExample": "...\n<Button onClick={() => CALL_BACK(props)}>\n...\n</Button>\n..."
+                            },
+                            {
+                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+                            }
+                        ],
+                        "links": [
+                            {
+                                "title": "Passing props to onClick event handler",
+                                "url": "https://stackoverflow.com/questions/37620694/passing-props-to-onclick-event-handler"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "id": "HYPOTHESIS_8",
+            "hypothesis": " You are not updating the state of the element(s) after the onClick event handler is called.",
+            "description": "The state of the element(s) needs to be updated after the onClick event handler is called.",
+            "tags": [
+                "clicking on the button does nothing"
+            ],
+            "evidence": [
+                {
+                    "rule": "EVENT_10",
+                    "description": "You clicked on an Button element on the Interface",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_13",
+                    "description": "However, inside the onClick event handler, you did not update the state of the element(s).",
+                    "isFound": true,
+                    "DoesContainTheDefect": true,
+                    "HowToFix": {
+                        "steps": [
+                            {
+                                "description": "Find the related onClick event handler in the file that applied the annimation. Here is acandidate onClick event handler that you may want to check.",
+                                "relatedEvidenceLocation": {
+                                    "rule": "EVENT_10",
+                                    "exactLocation": true
+                                }
+                            },
+                            {
+                                "description": "Add the setState function to the onClick event handler.",
+                                "codeExample": "...\n<button onClick={() => {\n// update the state of the element(s) here\n}}>\n..."
+                            },
+                            {
+                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+                            }
+                        ],
+                        "links": [
+                            {
+                                "title": "How to update the state of the element(s) in React",
+                                "url": "https://reactjs.org/docs/hooks-state.html"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "rule": "API_7",
+                    "description": "There was no call to the setState function inside the onClick event handler.",
+                    "isFound": false,
+                    "DoesContainTheDefect": false
+                }
+            ]
+        },
+        {
+            "id": "HYPOTHESIS_9",
+            "hypothesis": " You are not assigning a type to the button element.",
+            "description": "If a button is within a form element and it does not have a type attribute or the type attribute is set to 'submit', the button will act as a submit button and the form will be submitted when the button is clicked. ",
+            "tags": [
+                "clicking on the button does something unexpected"
+            ],
+            "evidence": [
+                {
+                    "rule": "EVENT_10",
+                    "description": "You clicked on an Button element on the Interface",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_16",
+                    "description": "The button was within a form element.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_17",
+                    "description": "However, the button did not have a type attribute or the type attribute was set to 'submit'.",
+                    "isFound": true,
+                    "DoesContainTheDefect": true,
+                    "HowToFix": {
+                        "steps": [
+                            {
+                                "description": "Find the related button element in the file that is called when you click on the button. Here is acandidate button element that you may want to check.",
+                                "relatedEvidenceLocation": {
+                                    "rule": "EVENT_10",
+                                    "exactLocation": true
+                                }
+                            },
+                            {
+                                "description": "Add the type attribute to the button element and set it to 'button'.",
+                                "codeExample": "...\n<button type=\"button\">\n..."
+                            },
+                            {
+                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+                            }
+                        ],
+                        "links": [
+                            {
+                                "title": "How to set the type of a button element",
+                                "url": "https://www.w3schools.com/tags/att_button_type.asp"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "id": "HYPOTHESIS_10",
+            "hypothesis": "You are not placeing the label element correctly.",
+            "description": "The label element should be placed before the input element and inside the loop.",
+            "tags": [
+                "clicking on the radio button choice selects the wrong choice"
+            ],
+            "evidence": [
+                {
+                    "rule": "API_18",
+                    "description": "You generated mutiple radio button choices using the map function.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "EVENT_11",
+                    "description": "You clicked on an Radio element on the Interface",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_19",
+                    "description": "The label element was placed outside the loop.",
+                    "isFound": true,
+                    "DoesContainTheDefect": true,
+                    "HowToFix": {
+                        "steps": [
+                            {
+                                "description": "Find the related label element in the file that is called when you click on the radio button choice. Here is acandidate label element that you may want to check.",
+                                "relatedEvidenceLocation": {
+                                    "rule": "API_19",
+                                    "exactLocation": true
+                                }
+                            },
+                            {
+                                "description": "Place the label element inside the loop.",
+                                "codeExample": "...\n"
+                            },
+                            {
+                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+                            }
+                        ],
+                        "links": [
+                            {
+                                "title": "How to place the label element correctly",
+                                "url": "https://www.w3schools.com/tags/tag_label.asp"
                             }
                         ]
                     }

@@ -61,17 +61,23 @@ const Quiz = () => {
                 <br />
                 <label>
                   {question.answers.map((answer, answerIndex) => (
-                    <span key={answer + questionIndex + answerIndex}>
+                    <>
                       <input
                         type="radio"
                         value={answer}
+                        key={answer + questionIndex + answerIndex}
+                        name={questionIndex}
+                        // name={questionIndex}
                         onChange={() =>
                           handleOptionChange(answer, questionIndex)
                         }
                         style={{ marginLeft: "20px" }}
+                        // This is the bug
+                        // checked={true}
+                        // this is the fix
                       />
                       {answer}
-                    </span>
+                    </>
                   ))}
                 </label>
               </div>
