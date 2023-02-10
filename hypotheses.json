@@ -654,21 +654,21 @@
                     "HowToFix": {
                         "steps": [
                             {
-                                "description": "Locate the element that has the event listener attached to it but does not receive the key event. A potential location is shown in the following file.",
+                                "description": "Here is an element that has the event listener attached, but doesn't receive the key event. Let us call this element `ElementInStep1`.",
                                 "relatedEvidenceLocation": {
                                     "rule": "API_10",
                                     "exactLocation": true
                                 }
                             },
                             {
-                                "description": "Located the element that receives the key event but does not have the event listener attached to it. A potential location is shown in the following file.",
+                                "description": "Here is an element that receives the key event, but doesn't have the event listener attached. Let us call this element `ElementInStep2`.",
                                 "relatedEvidenceLocation": {
                                     "rule": "EVENT_4",
                                     "exactLocation": true
                                 }
                             },
                             {
-                                "description": "Attach the event listener to the correct element. Remove event listeners such as `onKeyUp` or `onKeyDown` from the incorrect element and add them to the correct element.",
+                                "description": "Remove the event listener from `ElementInStep1` and add it to `ElementInStep2`.",
                                 "codeExample": "...\n<ElementInStep1\nonKeyUp={callback}> // <-- remove this\n</ElementInStep1>\n ...\n<ElementInStep2\nonKeyUp={callback}> // <-- add this\n</ElementInStep2>\n ..."
                             },
                             {
