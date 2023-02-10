@@ -654,21 +654,21 @@
                     "HowToFix": {
                         "steps": [
                             {
-                                "description": "Here is an element that has the event listener attached, but doesn't receive the key event. Let us call this element `ElementInStep1`.",
+                                "description": "Here is an element that has (onKeyDown or onKeyUp) attached, but doesn't receive the key event. Let us call this element `ElementInStep1`.",
                                 "relatedEvidenceLocation": {
                                     "rule": "API_10",
                                     "exactLocation": true
                                 }
                             },
                             {
-                                "description": "Here is an element that receives the key event, but doesn't have the event listener attached. Let us call this element `ElementInStep2`.",
+                                "description": "Here is an element that receives the key event, but doesn't have (onKeyDown or onKeyUp). Let us call this element `ElementInStep2`.",
                                 "relatedEvidenceLocation": {
                                     "rule": "EVENT_4",
                                     "exactLocation": true
                                 }
                             },
                             {
-                                "description": "Remove the event listener from `ElementInStep1` and add it to `ElementInStep2`.",
+                                "description": "Remove (onKeyDown or onKeyUp) from `ElementInStep1` and add it to `ElementInStep2`.",
                                 "codeExample": "...\n<ElementInStep1\nonKeyUp={callback}> // <-- remove this\n</ElementInStep1>\n ...\n<ElementInStep2\nonKeyUp={callback}> // <-- add this\n</ElementInStep2>\n ..."
                             },
                             {
