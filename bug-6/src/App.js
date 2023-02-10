@@ -84,16 +84,19 @@ const Quiz = () => {
             ))}
 
             <div className="form-group">
-              <button className="btn btn-primary mt-2" type="submit">
-                Check Answers
-              </button>
-              <button
-                className="btn btn-danger mt-2 ml-2"
-                type="reset"
-                onClick={() => setAnswers([])}
-              >
-                Reset
-              </button>
+              <div className="row">
+                <div className="col-md-3"> Answers</div>
+                <button className="btn btn-primary mt-2" type="submit">
+                  Check Answers
+                </button>
+                <button
+                  className="btn btn-danger mt-2 ml-2"
+                  type="reset"
+                  onClick={() => setAnswers([])}
+                >
+                  Reset
+                </button>
+              </div>
             </div>
           </form>
         </div>

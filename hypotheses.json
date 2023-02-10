@@ -90,7 +90,7 @@
                         "pattern": "$Y(...)"
                     },
                     {
-                        "pattern-inside": "...\nconst [$X, $Y] = useState(...)\n..."
+                        "pattern-inside": "...\nconst [$X, $Y] = $R.useState(...)\n..."
                     }
                 ],
                 "id": "API_7",
@@ -165,7 +165,10 @@
             {
                 "patterns": [
                     {
-                        "pattern": "<$R ...>...<div ...>...</div>...<button ... onClick={...}>... </button>...</$R>"
+                        "pattern": "<button ... onClick={...}>... </button>"
+                    },
+                    {
+                        "pattern-inside": "<$R ...>...</$R>"
                     }
                 ],
                 "id": "API_12",
@@ -195,7 +198,7 @@
             {
                 "patterns": [
                     {
-                        "pattern-inside": "const $HANDLE = ($ID) => {<...$CALL($ID)...>};\n$...S\n"
+                        "pattern-inside": "const $HANDLE = ($ID) => {...};\n$...S\n"
                     },
                     {
                         "focus-metavariable": "$HANDLE"
@@ -241,7 +244,14 @@
             {
                 "patterns": [
                     {
-                        "pattern": "<input ... type=\"radio\" onClick={...} ... />"
+                        "pattern-either": [
+                            {
+                                "pattern": "<input ... type='radio' onClick={...} ... />"
+                            },
+                            {
+                                "pattern": "<input ... type='radio' onChange={...} ... />"
+                            }
+                        ]
                     },
                     {
                         "pattern-inside": "$R.map((...) => (...))"
@@ -257,6 +267,105 @@
                     }
                 ],
                 "id": "API_19",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "patterns": [
+                    {
+                        "pattern": "<button ... onClick={...} ... value={...} ...>...</button>"
+                    }
+                ],
+                "id": "API_20",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "patterns": [
+                    {
+                        "pattern-inside": "const $HANDLE = ($ID) => {\n  ...\n  parseInt($ID.target.value)\n  ...\n  };\n$...S\n"
+                    },
+                    {
+                        "focus-metavariable": "$HANDLE"
+                    },
+                    {
+                        "metavariable-pattern": {
+                            "metavariable": "$...S",
+                            "patterns": [
+                                {
+                                    "pattern": "<$EL ... onClick={$HANDLE} ... value={...}...></$EL>\n"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "id": "API_21",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "patterns": [
+                    {
+                        "pattern-inside": "const $HANDLE = ($ID) => {\n  ...\n  $ID.currentTarget.value\n  ...\n  };\n$...S\n"
+                    },
+                    {
+                        "pattern-not-inside": "const $HANDLE = ($ID) => {\n  ...\n  parseInt($ID.currentTarget.value)\n  ...\n  };\n$...S\n"
+                    },
+                    {
+                        "focus-metavariable": "$HANDLE"
+                    },
+                    {
+                        "metavariable-pattern": {
+                            "metavariable": "$...S",
+                            "patterns": [
+                                {
+                                    "pattern": "<$EL ... onClick={$HANDLE} ... value={...}...></$EL>\n"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "id": "API_22",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "functionName": "invokeGuardedCallbackDev",
+                "patterns": [
+                    {
+                        "pattern-inside": "const $HANDLE = (...) => {...};\n$...S\n"
+                    },
+                    {
+                        "focus-metavariable": "$HANDLE"
+                    },
+                    {
+                        "metavariable-pattern": {
+                            "metavariable": "$...S",
+                            "patterns": [
+                                {
+                                    "pattern": "<$EL ... onClick={$HANDLE}></$EL>\n"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "id": "API_23",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "functionName": "invokeGuardedCallback",
+                "patterns": [
+                    {
+                        "pattern": "<button ... onClick={...}>...</button>"
+                    }
+                ],
+                "id": "API_24",
+                "description": "the state was updated inccorectly"
+            },
+            {
+                "functionName": "onError",
+                "patterns": [
+                    {
+                        "pattern": "<button ... onClick={...}>...</button>"
+                    }
+                ],
+                "id": "API_25",
                 "description": "the state was updated inccorectly"
             }
         ],
@@ -819,8 +928,14 @@
             ],
             "evidence": [
                 {
-                    "rule": "EVENT_10",
+                    "rule": "EVENT_8",
                     "description": "You clicked on an Button element on the Interface",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_24",
+                    "description": "You triggered the onClick event handler in the button.",
                     "isFound": true,
                     "DoesContainTheDefect": false
                 },
@@ -834,7 +949,7 @@
                             {
                                 "description": "Find the related onClick event handler in the file that applied the annimation. Here is acandidate onClick event handler that you may want to check.",
                                 "relatedEvidenceLocation": {
-                                    "rule": "EVENT_10",
+                                    "rule": "API_24",
                                     "exactLocation": true
                                 }
                             },
@@ -857,6 +972,12 @@
                 {
                     "rule": "API_7",
                     "description": "There was no call to the setState function inside the onClick event handler.",
+                    "isFound": false,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_25",
+                    "description": "There was no error that might prevent the state of the element(s) from being updated.",
                     "isFound": false,
                     "DoesContainTheDefect": false
                 }
@@ -963,6 +1084,122 @@
                             }
                         ]
                     }
+                }
+            ]
+        },
+        {
+            "id": "HYPOTHESIS_11",
+            "hypothesis": " You are not using currentTarget API to get the button id.",
+            "description": "The currentTarget API is used to get the id of the button that is clicked. However, you are using the target API to get the button id.",
+            "tags": [
+                "clicking on the button does nothin",
+                "clicking on the button throws an error"
+            ],
+            "evidence": [
+                {
+                    "rule": "EVENT_8",
+                    "description": "You clicked on an Button element on the Interface",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_20",
+                    "description": "You have set the value of the button and plan to get it when the button is clicked.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_21",
+                    "description": "However, you are using the target API to get the button id.",
+                    "isFound": true,
+                    "DoesContainTheDefect": true,
+                    "HowToFix": {
+                        "steps": [
+                            {
+                                "description": "Find the related button element in the file that is called when you click on the button. Here is acandidate button element that you may want to check.",
+                                "relatedEvidenceLocation": {
+                                    "rule": "API_21",
+                                    "exactLocation": true
+                                }
+                            },
+                            {
+                                "description": "Replace the target API with the currentTarget API.",
+                                "codeExample": "e.target.value // replace with e.currentTarget.value"
+                            },
+                            {
+                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+                            }
+                        ],
+                        "links": [
+                            {
+                                "title": "How to use the currentTarget API",
+                                "url": "https://developer.mozilla.org/en-US/docs/Web/API/Event/currentTarget"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "rule": "API_25",
+                    "description": "This cuased an error when you click on the button.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                }
+            ]
+        },
+        {
+            "id": "HYPOTHESIS_12",
+            "hypothesis": " You are not parsing user input to a number.",
+            "description": "The user input should be parsed to a number before it is used in the calculation.",
+            "tags": [
+                "clicking on the button does nothin",
+                "clicking on the button behaves unexpectedly"
+            ],
+            "evidence": [
+                {
+                    "rule": "EVENT_8",
+                    "description": "You clicked on an Button element on the Interface",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_20",
+                    "description": "You have set the value of the button and plan to get it when the button is clicked. The value of type string now",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
+                },
+                {
+                    "rule": "API_22",
+                    "description": "However, you did not parse the user input to a number.",
+                    "isFound": true,
+                    "DoesContainTheDefect": true,
+                    "HowToFix": {
+                        "steps": [
+                            {
+                                "description": "Find the related button element in the file that is called when you click on the button. Here is acandidate button element that you may want to check.",
+                                "rule": "API_22",
+                                "exactLocation": true
+                            },
+                            {
+                                "description": "Parse the user input to a number.",
+                                "codeExample": "e.currentTarget.value // replace with parseInt(e.currentTarget.value)"
+                            },
+                            {
+                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+                            }
+                        ],
+                        "links": [
+                            {
+                                "title": "How to parse user input to a number",
+                                "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "rule": "API_25",
+                    "description": "This cuased an error when you click on the button.",
+                    "isFound": true,
+                    "DoesContainTheDefect": false
                 }
             ]
         }
