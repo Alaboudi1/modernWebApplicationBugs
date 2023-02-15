@@ -630,7 +630,7 @@
             "evidence": [
                 {
                     "rule": "EVENT_1",
-                    "description": "A button on the interface was clicked, causing the browser to focus on a specific element, but no response was observed.",
+                    "description": "A button on the interface was clicked, causing the browser to focus on a specific element.",
                     "isFound": true,
                     "DoesContainTheDefect": false
                 },
@@ -642,13 +642,13 @@
                 },
                 {
                     "rule": "API_10",
-                    "description": "However, the callback (onKeyDown or onKeyUp) is attached to different element than the one that received the key event.",
+                    "description": "The callback (onKeyDown or onKeyUp) is attached to element(s) that did not receive the key event.",
                     "isFound": true,
                     "DoesContainTheDefect": false
                 },
                 {
                     "rule": "API_4",
-                    "description": "The event listener is attached to the incorrect element.",
+                    "description": "The key event was triggered on an element that did not have (onKeyDown or onKeyUp) attached.",
                     "isFound": false,
                     "DoesContainTheDefect": true,
                     "HowToFix": {
