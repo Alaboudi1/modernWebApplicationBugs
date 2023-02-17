@@ -599,7 +599,7 @@
                             },
                             {
                                 "description": "Add the .json() API immediately after the fetch API.",
-                                "codeExample": "fetch('A URL')\n.then(response => response.json()) // <-- add this line\n.then(...)"
+                                "codeExample": "fetch('A URL')\n.then(response => response.json()) // <-- add this line to your code\n.then(...)"
                             },
                             {
                                 "description": "Rerun the code to see if the issue has been resolved. If the problem persists, use the Hypothesizer for further investigation."
