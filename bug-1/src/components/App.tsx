@@ -13,8 +13,8 @@ export const App = (): JSX.Element => {
     dispatch({
       type: "SEARCH_MOVIES_REQUEST",
     });
-    fetch(`https://www.omdbapi.com/?s=${searchValues}&apikey=4a3b711b`).then(
-      (movies) => {
+    fetch(`https://www.omdbapi.com/?s=${searchValues}&apikey=4a3b711b`)
+    .then((movies) => {
         if (movies) {
           dispatch({
             type: "SEARCH_MOVIES_SUCCESS",
