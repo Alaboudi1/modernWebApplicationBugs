@@ -678,7 +678,7 @@
                         "links": [
                             {
                                 "title": "Using the onKeyUp event in React",
-                                "url": "https://bobbyhadz.com/blog/typescript-react-onkeyup-event-type"
+                                "url": "https://bobbyhadz.com/blog/typescript-react-onkeydown-event-type"
                             },
                             {
                                 "title": "Handling Events in React",
