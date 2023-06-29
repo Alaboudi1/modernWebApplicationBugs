@@ -705,7 +705,7 @@
                 },
                 {
                     "rule": "API_5",
-                    "description": "The code hanlded the mouseOver event using the onmouseOver event handler.",
+                    "description": "The code handled the mouseOver event using the onmouseOver event handler.",
                     "isFound": true,
                     "DoesContainTheDefect": false
                 },
