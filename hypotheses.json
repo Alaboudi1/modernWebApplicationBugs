@@ -1,1207 +1,1241 @@
 {
-    "evidence": {
-        "API_calls": [
-            {
-                "functionName": "preventDefault",
-                "patterns": [
-                    {
-                        "pattern": "$E.preventDefault()"
-                    }
-                ],
-                "id": "API_1",
-                "description": "the default behavior for the event was prevented"
-            },
-            {
-                "patterns": [
-                    {
-                        "pattern": "fetch($URL). ... .then($X => $X.json())"
-                    }
-                ],
-                "id": "API_3",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "functionName": "getEventKey",
-                "patterns": [
-                    {
-                        "pattern-either": [
-                            {
-                                "pattern": "<$R\n...\nonKeyUp={...}\n.../>"
-                            },
-                            {
-                                "pattern": "<$R\n...\nonKeyDown={...}\n.../>"
-                            },
-                            {
-                                "pattern": "<$R\n...\nonKeyUp={...}\n...>\n...</$R>"
-                            },
-                            {
-                                "pattern": "<$R\n...\nonKeyDown={...}\n...>\n...</$R>"
-                            }
-                        ]
-                    }
-                ],
-                "id": "API_4",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "functionName": "onMouseOver",
-                "patterns": [
-                    {
-                        "pattern-either": [
-                            {
-                                "pattern": "<$R\n...\nonMouseOver={...}\n.../>"
-                            },
-                            {
-                                "pattern": "<$R\n...\nonMouseOver={...}\n...>\n...</$R>"
-                            }
-                        ]
-                    }
-                ],
-                "id": "API_5",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "functionName": "onMouseOut",
-                "patterns": [
-                    {
-                        "pattern-either": [
-                            {
-                                "pattern": "<$R\n...\nonMouseOut={...}\n \nonMouseOver={...}\n.../>"
-                            },
-                            {
-                                "pattern": "<$R\n...\nonMouseOut={...}\n \nonMouseOver={...}\n...>\n...</$R>"
-                            },
-                            {
-                                "pattern": "<$R\n...\nonMouseOver={...}\n \nonMouseOut={...}\n.../>"
-                            },
-                            {
-                                "pattern": "<$R\n...\nonMouseOver={...}\n \nonMouseOut={...}\n...>\n...</$R>"
-                            }
-                        ]
-                    }
-                ],
-                "id": "API_6",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "functionName": "useState",
-                "patterns": [
-                    {
-                        "pattern": "$Y(...)"
-                    },
-                    {
-                        "pattern-inside": "...\nconst [$X, $Y] = $R.useState(...)\n..."
-                    }
-                ],
-                "id": "API_7",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "functionName": "useEffect",
-                "patterns": [
-                    {
-                        "pattern": "$R.style.transform = ..."
-                    },
-                    {
-                        "pattern-inside": "setTimeout(...)"
-                    },
-                    {
-                        "pattern-inside": "React.useEffect(...)"
-                    }
-                ],
-                "id": "API_8",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "functionName": "useEffect",
-                "patterns": [
-                    {
-                        "pattern": "$R.style.transform = ..."
-                    },
-                    {
-                        "pattern-inside": "React.useEffect(...)"
-                    }
-                ],
-                "id": "API_9",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "patterns": [
-                    {
-                        "pattern-either": [
-                            {
-                                "pattern": "<$R\n...\nonKeyUp={...}\n.../>"
-                            },
-                            {
-                                "pattern": "<$R\n...\nonKeyDown={...}\n.../>"
-                            },
-                            {
-                                "pattern": "<$R\n...\nonKeyUp={...}\n...>\n...</$R>"
-                            },
-                            {
-                                "pattern": "<$R\n...\nonKeyDown={...}\n...>\n...</$R>"
-                            }
-                        ]
-                    }
-                ],
-                "id": "API_10",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "patterns": [
-                    {
-                        "pattern": "const $Y = (...) => {...}"
-                    },
-                    {
-                        "pattern-inside": "const $X = (...) => {... return (<form onSubmit={$Y}>...</form>);...}"
-                    },
-                    {
-                        "pattern-not": "const $Y = ($T) => {... $T.preventDefault(); ...}"
-                    }
-                ],
-                "id": "API_11",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "patterns": [
-                    {
-                        "pattern": "<button ... onClick={...}>... </button>"
-                    },
-                    {
-                        "pattern-inside": "<$R ...>...</$R>"
-                    }
-                ],
-                "id": "API_12",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "patterns": [
-                    {
-                        "pattern": "<button ... onClick={...}>...</button>"
-                    }
-                ],
-                "id": "API_13",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "patterns": [
-                    {
-                        "pattern": "<button onClick={...}> ... </button>"
-                    },
-                    {
-                        "pattern-inside": "$ITEMS.map((...) => (...))"
-                    }
-                ],
-                "id": "API_14",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "patterns": [
-                    {
-                        "pattern-inside": "const $HANDLE = ($ID) => {...};\n$...S\n"
-                    },
-                    {
-                        "focus-metavariable": "$HANDLE"
-                    },
-                    {
-                        "metavariable-pattern": {
-                            "metavariable": "$...S",
-                            "patterns": [
-                                {
-                                    "pattern": "<$EL ... onClick={$HANDLE}></$EL>\n"
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "id": "API_15",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "patterns": [
-                    {
-                        "pattern": "<button ...onClick={...}> ... </button>"
-                    },
-                    {
-                        "pattern-inside": "<form onSubmit={...}>\n...\n</form>\n"
-                    }
-                ],
-                "id": "API_16",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "patterns": [
-                    {
-                        "pattern": "<button ...onClick={...}> ... </button>"
-                    },
-                    {
-                        "pattern-not": "<button ...onClick={...} ... type=\"button\"> ... </button>"
-                    }
-                ],
-                "id": "API_17",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "patterns": [
-                    {
-                        "pattern-either": [
-                            {
-                                "pattern": "<input ... type='radio' onClick={...} ... />"
-                            },
-                            {
-                                "pattern": "<input ... type='radio' onChange={...} ... />"
-                            }
-                        ]
-                    },
-                    {
-                        "pattern-inside": "$R.map((...) => (...))"
-                    }
-                ],
-                "id": "API_18",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "patterns": [
-                    {
-                        "pattern": "<label> {$R.map((...) => (...))} </label>"
-                    }
-                ],
-                "id": "API_19",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "patterns": [
-                    {
-                        "pattern": "<button ... onClick={...} ... value={...} ...>...</button>"
-                    }
-                ],
-                "id": "API_20",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "patterns": [
-                    {
-                        "pattern-inside": "const $HANDLE = ($ID) => {\n  ...\n  parseInt($ID.target.value)\n  ...\n  };\n$...S\n"
-                    },
-                    {
-                        "focus-metavariable": "$HANDLE"
-                    },
-                    {
-                        "metavariable-pattern": {
-                            "metavariable": "$...S",
-                            "patterns": [
-                                {
-                                    "pattern": "<$EL ... onClick={$HANDLE} ... value={...}...></$EL>\n"
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "id": "API_21",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "patterns": [
-                    {
-                        "pattern-inside": "const $HANDLE = ($ID) => {\n  ...\n  $ID.currentTarget.value\n  ...\n  };\n$...S\n"
-                    },
-                    {
-                        "pattern-not-inside": "const $HANDLE = ($ID) => {\n  ...\n  parseInt($ID.currentTarget.value)\n  ...\n  };\n$...S\n"
-                    },
-                    {
-                        "focus-metavariable": "$HANDLE"
-                    },
-                    {
-                        "metavariable-pattern": {
-                            "metavariable": "$...S",
-                            "patterns": [
-                                {
-                                    "pattern": "<$EL ... onClick={$HANDLE} ... value={...}...></$EL>\n"
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "id": "API_22",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "functionName": "invokeGuardedCallbackDev",
-                "patterns": [
-                    {
-                        "pattern-inside": "const $HANDLE = (...) => {...};\n$...S\n"
-                    },
-                    {
-                        "focus-metavariable": "$HANDLE"
-                    },
-                    {
-                        "metavariable-pattern": {
-                            "metavariable": "$...S",
-                            "patterns": [
-                                {
-                                    "pattern": "<$EL ... onClick={$HANDLE}></$EL>\n"
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "id": "API_23",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "functionName": "invokeGuardedCallback",
-                "patterns": [
-                    {
-                        "pattern": "<button ... onClick={...}>...</button>"
-                    }
-                ],
-                "id": "API_24",
-                "description": "the state was updated inccorectly"
-            },
-            {
-                "functionName": "onError",
-                "patterns": [
-                    {
-                        "pattern": "<button ... onClick={...}>...</button>"
-                    }
-                ],
-                "id": "API_25",
-                "description": "the state was updated inccorectly"
-            }
+  "evidence": {
+    "API_calls": [
+      {
+        "functionName": "useState",
+        "patterns": [
+          {
+            "pattern": "[$VAR, ...] = useState(...); ... console.log(..., $VAR, ...);"
+          },
+          {
+            "pattern-not": "[$VAR, ...] = useState(...); ... useEffect(...,[$VAR]) ... console.log(..., $VAR, ...);"
+          }
         ],
-        "DOM_events": [
-            {
-                "objectShape": {
-                    "InputType": "submit",
-                    "type": "click"
-                },
-                "id": "EVENT_1",
-                "description": "the default behavior for the event was prevented"
-            },
-            {
-                "objectShape": {
-                    "InputType": "text",
-                    "type": "keydown"
-                },
-                "id": "EVENT_2",
-                "description": "the default behavior for the event was prevented"
-            },
-            {
-                "objectShape": {
-                    "type": "keydown",
-                    "target": "BUTTON"
-                },
-                "id": "EVENT_4",
-                "description": "the default behavior for the event was prevented"
-            },
-            {
-                "objectShape": {
-                    "type": "mouseover"
-                },
-                "id": "EVENT_6",
-                "description": "the default behavior for the event was prevented"
-            },
-            {
-                "objectShape": {
-                    "type": "mouseout"
-                },
-                "id": "EVENT_7",
-                "description": "the default behavior for the event was prevented"
-            },
-            {
-                "objectShape": {
-                    "type": "childList"
-                },
-                "id": "EVENT_3",
-                "description": "the default behavior for the event was prevented"
-            },
-            {
-                "objectShape": {
-                    "type": "attributes"
-                },
-                "id": "EVENT_5",
-                "description": "the default behavior for the event was prevented"
-            },
-            {
-                "objectShape": {
-                    "type": "click"
-                },
-                "id": "EVENT_8",
-                "description": "the default behavior for the event was prevented"
-            },
-            {
-                "objectShape": {
-                    "target": "DIV",
-                    "type": "click"
-                },
-                "id": "EVENT_9",
-                "description": "the default behavior for the event was prevented"
-            },
-            {
-                "objectShape": {
-                    "target": "BUTTON",
-                    "type": "click"
-                },
-                "id": "EVENT_10",
-                "description": "the default behavior for the event was prevented"
-            },
-            {
-                "objectShape": {
-                    "InputType": "radio",
-                    "type": "click"
-                },
-                "id": "EVENT_11",
-                "description": "the default behavior for the event was prevented"
-            }
+        "id": "API_26",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "functionName": "preventDefault",
+        "patterns": [
+          {
+            "pattern": "$E.preventDefault()"
+          }
         ],
-        "Network_events": [
-            {
-                "objectShape": {
-                    "type": "responseReceived",
-                    "mimeType": "text/html"
-                },
-                "id": "NETWORK_1",
-                "description": "the default behavior for the event was prevented"
-            },
-            {
-                "objectShape": {
-                    "type": "requestWillBeSent",
-                    "method": "GET"
-                },
-                "id": "NETWORK_2",
-                "description": "the default behavior for the event was prevented"
-            },
-            {
-                "objectShape": {
-                    "type": "responseReceived",
-                    "mimeType": "application/json"
-                },
-                "id": "NETWORK_3",
-                "description": "the default behavior for the event was prevented"
+        "id": "API_1",
+        "description": "the default behavior for the event was prevented"
+      },
+      {
+        "patterns": [
+          {
+            "pattern": "fetch($URL). ... .then($X => $X.json())"
+          }
+        ],
+        "id": "API_3",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "functionName": "getEventKey",
+        "patterns": [
+          {
+            "pattern-either": [
+              {
+                "pattern": "<$R\n...\nonKeyUp={...}\n.../>"
+              },
+              {
+                "pattern": "<$R\n...\nonKeyDown={...}\n.../>"
+              },
+              {
+                "pattern": "<$R\n...\nonKeyUp={...}\n...>\n...</$R>"
+              },
+              {
+                "pattern": "<$R\n...\nonKeyDown={...}\n...>\n...</$R>"
+              }
+            ]
+          }
+        ],
+        "id": "API_4",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "functionName": "onMouseOver",
+        "patterns": [
+          {
+            "pattern-either": [
+              {
+                "pattern": "<$R\n...\nonMouseOver={...}\n.../>"
+              },
+              {
+                "pattern": "<$R\n...\nonMouseOver={...}\n...>\n...</$R>"
+              }
+            ]
+          }
+        ],
+        "id": "API_5",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "functionName": "onMouseOut",
+        "patterns": [
+          {
+            "pattern-either": [
+              {
+                "pattern": "<$R\n...\nonMouseOut={...}\n \nonMouseOver={...}\n.../>"
+              },
+              {
+                "pattern": "<$R\n...\nonMouseOut={...}\n \nonMouseOver={...}\n...>\n...</$R>"
+              },
+              {
+                "pattern": "<$R\n...\nonMouseOver={...}\n \nonMouseOut={...}\n.../>"
+              },
+              {
+                "pattern": "<$R\n...\nonMouseOver={...}\n \nonMouseOut={...}\n...>\n...</$R>"
+              }
+            ]
+          }
+        ],
+        "id": "API_6",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "functionName": "useState",
+        "patterns": [
+          {
+            "pattern": "$Y(...)"
+          },
+          {
+            "pattern-inside": "...\nconst [$X, $Y] = $R.useState(...)\n..."
+          }
+        ],
+        "id": "API_7",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "functionName": "useEffect",
+        "patterns": [
+          {
+            "pattern": "$R.style.transform = ..."
+          },
+          {
+            "pattern-inside": "setTimeout(...)"
+          },
+          {
+            "pattern-inside": "React.useEffect(...)"
+          }
+        ],
+        "id": "API_8",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "functionName": "useEffect",
+        "patterns": [
+          {
+            "pattern": "$R.style.transform = ..."
+          },
+          {
+            "pattern-inside": "React.useEffect(...)"
+          }
+        ],
+        "id": "API_9",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "patterns": [
+          {
+            "pattern-either": [
+              {
+                "pattern": "<$R\n...\nonKeyUp={...}\n.../>"
+              },
+              {
+                "pattern": "<$R\n...\nonKeyDown={...}\n.../>"
+              },
+              {
+                "pattern": "<$R\n...\nonKeyUp={...}\n...>\n...</$R>"
+              },
+              {
+                "pattern": "<$R\n...\nonKeyDown={...}\n...>\n...</$R>"
+              }
+            ]
+          }
+        ],
+        "id": "API_10",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "patterns": [
+          {
+            "pattern": "const $Y = (...) => {...}"
+          },
+          {
+            "pattern-inside": "const $X = (...) => {... return (<form onSubmit={$Y}>...</form>);...}"
+          },
+          {
+            "pattern-not": "const $Y = ($T) => {... $T.preventDefault(); ...}"
+          }
+        ],
+        "id": "API_11",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "patterns": [
+          {
+            "pattern": "<button ... onClick={...}>... </button>"
+          },
+          {
+            "pattern-inside": "<$R ...>...</$R>"
+          }
+        ],
+        "id": "API_12",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "patterns": [
+          {
+            "pattern": "<button ... onClick={...}>...</button>"
+          }
+        ],
+        "id": "API_13",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "patterns": [
+          {
+            "pattern": "<button onClick={...}> ... </button>"
+          },
+          {
+            "pattern-inside": "$ITEMS.map((...) => (...))"
+          }
+        ],
+        "id": "API_14",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "patterns": [
+          {
+            "pattern-inside": "const $HANDLE = ($ID) => {...};\n$...S\n"
+          },
+          {
+            "focus-metavariable": "$HANDLE"
+          },
+          {
+            "metavariable-pattern": {
+              "metavariable": "$...S",
+              "patterns": [
+                {
+                  "pattern": "<$EL ... onClick={$HANDLE}></$EL>\n"
+                }
+              ]
             }
-        ]
-    },
-    "hypotheses": [
-        {
-            "id": "HYPOTHESIS_1",
-            "hypothesis": "You are not using 'preventDefault' API to prevent the default behavior of the submit button.",
-            "description": "When you use the submit button inside a form, the default behavior is to send the form data to the server and load a new page. However, this may not be the desired behavior, especially in React apps where you want to partially update the page.",
-            "tags": [
-                "incorrect add/remove item of a list of items",
-                "unexpected reload of the page"
-            ],
-            "evidence": [
-                {
-                    "rule": "EVENT_2",
-                    "description": "The first thing you did was typing in the input box.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "EVENT_1",
-                    "description": "The you clicked on the submit button, which triggered a submit event.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_11",
-                    "description": "The submit event was handled by a callback triggered after the submit event.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_1",
-                    "description": "However, you did not use the preventDefault API to prevent the default behavior of the submit button. This often happen inside onSubmit event handler inside the form.",
-                    "isFound": false,
-                    "DoesContainTheDefect": true,
-                    "HowToFix": {
-                        "steps": [
-                            {
-                                "description": "Start by searching for the onSubmit event handler inside the form inside this file.",
-                                "relatedEvidenceLocation": {
-                                    "rule": "API_11",
-                                    "exactLocation": true
-                                }
-                            },
-                            {
-                                "description": "Inside the onSubmit event handler, add the preventDefault API to prevent the default behavior of the submit button.",
-                                "codeExample": "const XXXXX = (e)=>{\n e.preventDefault() // <-- use this API inside the onSubmit callback\n}"
-                            },
-                            {
-                                "description": "Now, when you click on the submit button, the page will not be reloaded."
-                            }
-                        ],
-                        "links": [
-                            {
-                                "title": "Understanding React's preventdefault()",
-                                "url": "https://sebhastian.com/react-preventdefault/#:~:text=To%20cancel%20the%20native%20behavior%20of%20the%20submit,inside%20handleSubmit%20will%20be%20run%20by%20the%20browser."
-                            },
-                            {
-                                "title": "React Official Docs for Handling Events",
-                                "url": "https://reactjs.org/docs/handling-events.html#:~:text=this%20could%20instead%20be"
-                            },
-                            {
-                                "title": "MDN preventDefault",
-                                "url": "https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault#syntax"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "rule": "NETWORK_1",
-                    "description": "The browser reload since the submit behaior was not prevented.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                }
+          }
+        ],
+        "id": "API_15",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "patterns": [
+          {
+            "pattern": "<button ...onClick={...}> ... </button>"
+          },
+          {
+            "pattern-inside": "<form onSubmit={...}>\n...\n</form>\n"
+          }
+        ],
+        "id": "API_16",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "patterns": [
+          {
+            "pattern": "<button ...onClick={...}> ... </button>"
+          },
+          {
+            "pattern-not": "<button ...onClick={...} ... type=\"button\"> ... </button>"
+          }
+        ],
+        "id": "API_17",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "patterns": [
+          {
+            "pattern-either": [
+              {
+                "pattern": "<input ... type='radio' onClick={...} ... />"
+              },
+              {
+                "pattern": "<input ... type='radio' onChange={...} ... />"
+              }
             ]
+          },
+          {
+            "pattern-inside": "$R.map((...) => (...))"
+          }
+        ],
+        "id": "API_18",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "patterns": [
+          {
+            "pattern": "<label> {$R.map((...) => (...))} </label>"
+          }
+        ],
+        "id": "API_19",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "patterns": [
+          {
+            "pattern": "<button ... onClick={...} ... value={...} ...>...</button>"
+          }
+        ],
+        "id": "API_20",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "patterns": [
+          {
+            "pattern-inside": "const $HANDLE = ($ID) => {\n  ...\n  parseInt($ID.target.value)\n  ...\n  };\n$...S\n"
+          },
+          {
+            "focus-metavariable": "$HANDLE"
+          },
+          {
+            "metavariable-pattern": {
+              "metavariable": "$...S",
+              "patterns": [
+                {
+                  "pattern": "<$EL ... onClick={$HANDLE} ... value={...}...></$EL>\n"
+                }
+              ]
+            }
+          }
+        ],
+        "id": "API_21",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "patterns": [
+          {
+            "pattern-inside": "const $HANDLE = ($ID) => {\n  ...\n  $ID.currentTarget.value\n  ...\n  };\n$...S\n"
+          },
+          {
+            "pattern-not-inside": "const $HANDLE = ($ID) => {\n  ...\n  parseInt($ID.currentTarget.value)\n  ...\n  };\n$...S\n"
+          },
+          {
+            "focus-metavariable": "$HANDLE"
+          },
+          {
+            "metavariable-pattern": {
+              "metavariable": "$...S",
+              "patterns": [
+                {
+                  "pattern": "<$EL ... onClick={$HANDLE} ... value={...}...></$EL>\n"
+                }
+              ]
+            }
+          }
+        ],
+        "id": "API_22",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "functionName": "invokeGuardedCallbackDev",
+        "patterns": [
+          {
+            "pattern-inside": "const $HANDLE = (...) => {...};\n$...S\n"
+          },
+          {
+            "focus-metavariable": "$HANDLE"
+          },
+          {
+            "metavariable-pattern": {
+              "metavariable": "$...S",
+              "patterns": [
+                {
+                  "pattern": "<$EL ... onClick={$HANDLE}></$EL>\n"
+                }
+              ]
+            }
+          }
+        ],
+        "id": "API_23",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "functionName": "invokeGuardedCallback",
+        "patterns": [
+          {
+            "pattern": "<button ... onClick={...}>...</button>"
+          }
+        ],
+        "id": "API_24",
+        "description": "the state was updated inccorectly"
+      },
+      {
+        "functionName": "onError",
+        "patterns": [
+          {
+            "pattern": "<button ... onClick={...}>...</button>"
+          }
+        ],
+        "id": "API_25",
+        "description": "the state was updated inccorectly"
+      }
+    ],
+    "DOM_events": [
+      {
+        "objectShape": {
+          "InputType": "submit",
+          "type": "click"
         },
-        {
-            "id": "HYPOTHESIS_2",
-            "hypothesis": "The data received from the server is not being parsed, resulting in the program not rendering anything",
-            "description": "Data was requested from a server and received successfully. However, the data was not parsed using the response.json() API before it was used, causing the program to either crash or display the data incorrectly.",
-            "tags": [
-                "Incorrect list item addition/removal",
-                "Rendering an empty page",
-                "Unable to render data fetched from the server"
-            ],
-            "evidence": [
-                {
-                    "rule": "EVENT_8",
-                    "description": "The query was sent by clicking on the submit button.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "NETWORK_2",
-                    "description": "The program successfully requested the data from the server.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "NETWORK_3",
-                    "description": "The program received the response as a JSON object.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_3",
-                    "description": "The data was not parsed using response.json() after being received from the server. Instead, the raw data was used.",
-                    "isFound": false,
-                    "DoesContainTheDefect": true,
-                    "HowToFix": {
-                        "steps": [
-                            {
-                                "description": "Locate where the fetch API is being used in your code. A potential location is shown in the follwing file.",
-                                "relatedEvidenceLocation": {
-                                    "rule": "NETWORK_3",
-                                    "exactLocation": true
-                                }
-                            },
-                            {
-                                "description": "Add the .json() API immediately after the fetch API.",
-                                "codeExample": "fetch('A URL')\n.then(response => response.json()) // <-- add this line to your code\n.then(...)"
-                            },
-                            {
-                                "description": "Rerun the code to see if the issue has been resolved. If the problem persists, use the Hypothesizer for further investigation."
-                            }
-                        ],
-                        "links": [
-                            {
-                                "title": "Using Fetch",
-                                "url": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch"
-                            },
-                            {
-                                "title": "Fetch API",
-                                "url": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API"
-                            }
-                        ]
-                    }
-                }
-            ]
+        "id": "EVENT_1",
+        "description": "the default behavior for the event was prevented"
+      },
+      {
+        "objectShape": {
+          "InputType": "text",
+          "type": "keydown"
         },
-        {
-            "id": "HYPOTHESIS_3",
-            "hypothesis": "The event listener for keyboard events is not attached to the correct element",
-            "description": "When a key is pressed on the keyboard, the browser triggers a key event. The event listener must be implemented and attached to the appropriate element to respond to these key events.",
-            "tags": [
-                "No response when pressing keys on the keyboard",
-                "Event listener not working"
-            ],
-            "evidence": [
-                {
-                    "rule": "EVENT_1",
-                    "description": "A button on the interface was clicked, causing the browser to focus on a specific element.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "EVENT_4",
-                    "description": "Key(s) were pressed on the keyboard, triggering keybord events.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_10",
-                    "description": "The callback (onKeyDown or onKeyUp) is attached to element(s) that did not receive the key event.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_4",
-                    "description": "The key event was triggered on an element that did not have (onKeyDown or onKeyUp) attached.",
-                    "isFound": false,
-                    "DoesContainTheDefect": true,
-                    "HowToFix": {
-                        "steps": [
-                            {
-                                "description": "Here is an element that has (onKeyDown or onKeyUp) attached, but doesn't receive the key event. Let us call this element `ElementInStep1`.",
-                                "relatedEvidenceLocation": {
-                                    "rule": "API_10",
-                                    "exactLocation": true
-                                }
-                            },
-                            {
-                                "description": "Here is an element that receives the key event, but doesn't have (onKeyDown or onKeyUp). Let us call this element `ElementInStep2`.",
-                                "relatedEvidenceLocation": {
-                                    "rule": "EVENT_4",
-                                    "exactLocation": true
-                                }
-                            },
-                            {
-                                "description": "Remove (onKeyDown or onKeyUp) from `ElementInStep1` and add it to `ElementInStep2`.",
-                                "codeExample": "...\n<ElementInStep1\nonKeyUp={callback}> // <-- remove this\n</ElementInStep1>\n ...\n<ElementInStep2\nonKeyUp={callback}> // <-- add this\n</ElementInStep2>\n ..."
-                            },
-                            {
-                                "description": "Run the code again and check if the issue has been resolved. If not, use Hypothesizer for further investigation."
-                            }
-                        ],
-                        "links": [
-                            {
-                                "title": "Using the onKeyUp event in React",
-                                "url": "https://bobbyhadz.com/blog/typescript-react-onkeydown-event-type"
-                            },
-                            {
-                                "title": "Handling Events in React",
-                                "url": "https://reactjs.org/docs/handling-events.html"
-                            }
-                        ]
-                    }
-                }
-            ]
+        "id": "EVENT_2",
+        "description": "the default behavior for the event was prevented"
+      },
+      {
+        "objectShape": {
+          "type": "keydown",
+          "target": "BUTTON"
         },
-        {
-            "id": "HYPOTHESIS_4",
-            "hypothesis": "You are only handling onmouseOver event, but not onmouseOut event.",
-            "description": "When you hover over an element, the browser will trigger a mouseOver event. When you move the mouse out of the element, the browser will trigger a mouseOut event. You need to implement the correct event handler to listen to the mouse events and attach the event handler to the correct element.",
-            "tags": [
-                "no response when moving the mouse out of an element"
-            ],
-            "evidence": [
-                {
-                    "rule": "EVENT_6",
-                    "description": "You hovered over element(s) on the interface, which triggered mouseOver events.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_5",
-                    "description": "The code handled the mouseOver event using the onmouseOver event handler.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "EVENT_7",
-                    "description": "You moved the mouse out of the element(s) on the interface, which triggered mouseOut events.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_6",
-                    "description": "The code did not handle the mouseOut event using the onmouseOut event handler.",
-                    "isFound": false,
-                    "DoesContainTheDefect": true,
-                    "HowToFix": {
-                        "steps": [
-                            {
-                                "description": "The event was triggered from the element highlighted. However, you either did not implement the event handler correctly or you attached the event handler to the wrong element. Search for where the event handler is implemented now inside the file. Search for onmouseOver. Remove the event handler from the element if you find it.",
-                                "relatedEvidenceLocation": {
-                                    "rule": "API_5",
-                                    "exactLocation": true
-                                }
-                            },
-                            {
-                                "description": "You need to add the correct event handler to the highlighted element in the above file. For example, try onmouseOut.",
-                                "codeExample": "...\n<XXX\nonmouseOut={callback}> // <-- add this inside to the element highlight above. Please use the approprate callback.\n</XXX>\n..."
-                            },
-                            {
-                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
-                            }
-                        ],
-                        "links": [
-                            {
-                                "title": "Type the onmouseOut event in React",
-                                "url": "https://bobbyhadz.com/blog/react-show-element-on-hover"
-                            },
-                            {
-                                "title": "Handling Events",
-                                "url": "https://reactjs.org/docs/handling-events.html"
-                            }
-                        ]
-                    }
-                }
-            ]
+        "id": "EVENT_4",
+        "description": "the default behavior for the event was prevented"
+      },
+      {
+        "objectShape": {
+          "type": "mouseover"
         },
-        {
-            "id": "HYPOTHESIS_5",
-            "hypothesis": "You need to apply the animation inside setTimeout and useEffect.",
-            "description": "After React add/update an element in the DOM, it will execute the related useEffect hook. You need to apply the annimation inside the related useEffect hook by using setTimeout.",
-            "tags": [
-                "annimation is not working"
-            ],
-            "evidence": [
-                {
-                    "rule": "EVENT_8",
-                    "description": "You clicked on an Element on the Interface",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_7",
-                    "description": "You updated the state of the element(s) using the setState function.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "EVENT_3",
-                    "description": "Updating the state cuased the element to be updated in the DOM.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_9",
-                    "description": "You applied the annimation inside the useEffect hook.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_8",
-                    "description": "However, you did not apply the annimation inside setTimeout, which means the annimation may be applied before the element is updated in the DOM.",
-                    "isFound": false,
-                    "DoesContainTheDefect": true,
-                    "HowToFix": {
-                        "steps": [
-                            {
-                                "description": "Find the related useEffect hook in the file that applied the annimation. Here is acandidate useEffect hook that you may want to check.",
-                                "relatedEvidenceLocation": {
-                                    "rule": "API_9",
-                                    "exactLocation": true
-                                }
-                            },
-                            {
-                                "description": "Add setTimeout to the useEffect hook.",
-                                "codeExample": "...\nuseEffect(() => {\nsetTimeout(() => {\n// apply annimation here\n}, 0);\n}, []);\n..."
-                            },
-                            {
-                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
-                            }
-                        ],
-                        "links": [
-                            {
-                                "title": "Animation Classes & useEffect Hooks",
-                                "url": "https://dev.to/avatarkaleb/animation-classes-useeffect-hooks-is-there-a-better-way-2hfn"
-                            }
-                        ]
-                    }
-                }
-            ]
+        "id": "EVENT_6",
+        "description": "the default behavior for the event was prevented"
+      },
+      {
+        "objectShape": {
+          "type": "mouseout"
         },
-        {
-            "id": "HYPOTHESIS_6",
-            "hypothesis": "You are not alighing the elements correctly, which causes the elements to overlap",
-            "description": "There is an html that colluded with the button you are trying to click. You need to align the elements correctly to avoid the colusion.",
-            "tags": [
-                "button is not clickable"
-            ],
-            "evidence": [
-                {
-                    "rule": "EVENT_9",
-                    "description": "You clicked on an DIV element on the Interface",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "EVENT_10",
-                    "description": "However, you did not click on any button element.",
-                    "isFound": false,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_12",
-                    "description": "The reason might be that the button is not clickable because it is covered by the other div element.",
-                    "isFound": true,
-                    "DoesContainTheDefect": true,
-                    "HowToFix": {
-                        "steps": [
-                            {
-                                "description": "The button is covered by this div element. You need to align the div element correctly to avoid the colusion.",
-                                "relatedEvidenceLocation": {
-                                    "rule": "EVENT_9",
-                                    "exactLocation": true
-                                }
-                            },
-                            {
-                                "description": "You can also change the z-index of the div element or the button element to avoid the colusion.",
-                                "relatedEvidenceLocation": {
-                                    "rule": "API_12",
-                                    "exactLocation": true
-                                }
-                            }
-                        ],
-                        "links": [
-                            {
-                                "title": "How to align elements in CSS",
-                                "url": "https://www.w3schools.com/css/css_align.asp"
-                            }
-                        ]
-                    }
-                }
-            ]
+        "id": "EVENT_7",
+        "description": "the default behavior for the event was prevented"
+      },
+      {
+        "objectShape": {
+          "type": "childList"
         },
-        {
-            "id": "HYPOTHESIS_7",
-            "hypothesis": " You are not explicitly passing the props to the onClick event handler.",
-            "description": "The onclick handler needs to be explicitly passed the props to the callback function.",
-            "tags": [
-                "clicking on the button behaves unexpectedly"
-            ],
-            "evidence": [
-                {
-                    "rule": "EVENT_10",
-                    "description": "You clicked on an Button element on the Interface",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_14",
-                    "description": "You this trigger the onClick event handler in one of the buttons generated by the map function.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_15",
-                    "description": "However, you did not pass any props to the onClick event handler.",
-                    "isFound": true,
-                    "DoesContainTheDefect": true,
-                    "HowToFix": {
-                        "steps": [
-                            {
-                                "description": "Find the related onClick event handler in the file that is called when you click on the button. Here is acandidate onClick event handler that you may want to check.",
-                                "relatedEvidenceLocation": {
-                                    "rule": "API_14",
-                                    "exactLocation": true
-                                }
-                            },
-                            {
-                                "description": "Pass the props to the onClick event handler.",
-                                "codeExample": "...\n<Button onClick={() => CALL_BACK(props)}>\n...\n</Button>\n..."
-                            },
-                            {
-                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
-                            }
-                        ],
-                        "links": [
-                            {
-                                "title": "Passing props to onClick event handler",
-                                "url": "https://stackoverflow.com/questions/37620694/passing-props-to-onclick-event-handler"
-                            }
-                        ]
-                    }
-                }
-            ]
+        "id": "EVENT_3",
+        "description": "the default behavior for the event was prevented"
+      },
+      {
+        "objectShape": {
+          "type": "attributes"
         },
-        {
-            "id": "HYPOTHESIS_8",
-            "hypothesis": " You are not updating the state of the element(s) after the onClick event handler is called.",
-            "description": "The state of the element(s) needs to be updated after the onClick event handler is called.",
-            "tags": [
-                "clicking on the button does nothing"
-            ],
-            "evidence": [
-                {
-                    "rule": "EVENT_8",
-                    "description": "You clicked on an Button element on the Interface",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_24",
-                    "description": "You triggered the onClick event handler in the button.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_13",
-                    "description": "However, inside the onClick event handler, you did not update the state of the element(s).",
-                    "isFound": true,
-                    "DoesContainTheDefect": true,
-                    "HowToFix": {
-                        "steps": [
-                            {
-                                "description": "Find the related onClick event handler in the file that applied the annimation. Here is acandidate onClick event handler that you may want to check.",
-                                "relatedEvidenceLocation": {
-                                    "rule": "API_24",
-                                    "exactLocation": true
-                                }
-                            },
-                            {
-                                "description": "Add the setState function to the onClick event handler.",
-                                "codeExample": "...\n<button onClick={() => {\n// update the state of the element(s) here\n}}>\n..."
-                            },
-                            {
-                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
-                            }
-                        ],
-                        "links": [
-                            {
-                                "title": "How to update the state of the element(s) in React",
-                                "url": "https://reactjs.org/docs/hooks-state.html"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "rule": "API_7",
-                    "description": "There was no call to the setState function inside the onClick event handler.",
-                    "isFound": false,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_25",
-                    "description": "There was no error that might prevent the state of the element(s) from being updated.",
-                    "isFound": false,
-                    "DoesContainTheDefect": false
-                }
-            ]
+        "id": "EVENT_5",
+        "description": "the default behavior for the event was prevented"
+      },
+      {
+        "objectShape": {
+          "type": "click"
         },
-        {
-            "id": "HYPOTHESIS_9",
-            "hypothesis": " You are not assigning a type to the button element.",
-            "description": "If a button is within a form element and it does not have a type attribute or the type attribute is set to 'submit', the button will act as a submit button and the form will be submitted when the button is clicked. ",
-            "tags": [
-                "clicking on the button does something unexpected"
-            ],
-            "evidence": [
-                {
-                    "rule": "EVENT_10",
-                    "description": "You clicked on an Button element on the Interface",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_16",
-                    "description": "The button was within a form element.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_17",
-                    "description": "However, the button did not have a type attribute or the type attribute was set to 'submit'.",
-                    "isFound": true,
-                    "DoesContainTheDefect": true,
-                    "HowToFix": {
-                        "steps": [
-                            {
-                                "description": "Find the related button element in the file that is called when you click on the button. Here is acandidate button element that you may want to check.",
-                                "relatedEvidenceLocation": {
-                                    "rule": "EVENT_10",
-                                    "exactLocation": true
-                                }
-                            },
-                            {
-                                "description": "Add the type attribute to the button element and set it to 'button'.",
-                                "codeExample": "...\n<button type=\"button\">\n..."
-                            },
-                            {
-                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
-                            }
-                        ],
-                        "links": [
-                            {
-                                "title": "How to set the type of a button element",
-                                "url": "https://www.w3schools.com/tags/att_button_type.asp"
-                            }
-                        ]
-                    }
-                }
-            ]
+        "id": "EVENT_8",
+        "description": "the default behavior for the event was prevented"
+      },
+      {
+        "objectShape": {
+          "target": "DIV",
+          "type": "click"
         },
-        {
-            "id": "HYPOTHESIS_10",
-            "hypothesis": "You are not placeing the label element correctly.",
-            "description": "The label element should be placed before the input element and inside the loop.",
-            "tags": [
-                "clicking on the radio button choice selects the wrong choice"
-            ],
-            "evidence": [
-                {
-                    "rule": "API_18",
-                    "description": "You generated mutiple radio button choices using the map function.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "EVENT_11",
-                    "description": "You clicked on an Radio element on the Interface",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_19",
-                    "description": "The label element was placed outside the loop.",
-                    "isFound": true,
-                    "DoesContainTheDefect": true,
-                    "HowToFix": {
-                        "steps": [
-                            {
-                                "description": "Find the related label element in the file that is called when you click on the radio button choice. Here is acandidate label element that you may want to check.",
-                                "relatedEvidenceLocation": {
-                                    "rule": "API_19",
-                                    "exactLocation": true
-                                }
-                            },
-                            {
-                                "description": "Place the label element inside the loop.",
-                                "codeExample": "...\n"
-                            },
-                            {
-                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
-                            }
-                        ],
-                        "links": [
-                            {
-                                "title": "How to place the label element correctly",
-                                "url": "https://www.w3schools.com/tags/tag_label.asp"
-                            }
-                        ]
-                    }
-                }
-            ]
+        "id": "EVENT_9",
+        "description": "the default behavior for the event was prevented"
+      },
+      {
+        "objectShape": {
+          "target": "BUTTON",
+          "type": "click"
         },
-        {
-            "id": "HYPOTHESIS_11",
-            "hypothesis": " You are not using currentTarget API to get the button id.",
-            "description": "The currentTarget API is used to get the id of the button that is clicked. However, you are using the target API to get the button id.",
-            "tags": [
-                "clicking on the button does nothin",
-                "clicking on the button throws an error"
-            ],
-            "evidence": [
-                {
-                    "rule": "EVENT_8",
-                    "description": "You clicked on an Button element on the Interface",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_20",
-                    "description": "You have set the value of the button and plan to get it when the button is clicked.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_21",
-                    "description": "However, you are using the target API to get the button id.",
-                    "isFound": true,
-                    "DoesContainTheDefect": true,
-                    "HowToFix": {
-                        "steps": [
-                            {
-                                "description": "Find the related button element in the file that is called when you click on the button. Here is acandidate button element that you may want to check.",
-                                "relatedEvidenceLocation": {
-                                    "rule": "API_21",
-                                    "exactLocation": true
-                                }
-                            },
-                            {
-                                "description": "Replace the target API with the currentTarget API.",
-                                "codeExample": "e.target.value // replace with e.currentTarget.value"
-                            },
-                            {
-                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
-                            }
-                        ],
-                        "links": [
-                            {
-                                "title": "How to use the currentTarget API",
-                                "url": "https://developer.mozilla.org/en-US/docs/Web/API/Event/currentTarget"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "rule": "API_25",
-                    "description": "This cuased an error when you click on the button.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                }
-            ]
+        "id": "EVENT_10",
+        "description": "the default behavior for the event was prevented"
+      },
+      {
+        "objectShape": {
+          "InputType": "radio",
+          "type": "click"
         },
-        {
-            "id": "HYPOTHESIS_12",
-            "hypothesis": " You are not parsing user input to a number.",
-            "description": "The user input should be parsed to a number before it is used in the calculation.",
-            "tags": [
-                "clicking on the button does nothin",
-                "clicking on the button behaves unexpectedly"
-            ],
-            "evidence": [
-                {
-                    "rule": "EVENT_8",
-                    "description": "You clicked on an Button element on the Interface",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_20",
-                    "description": "You have set the value of the button and plan to get it when the button is clicked. The value of type string now",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                },
-                {
-                    "rule": "API_22",
-                    "description": "However, you did not parse the user input to a number.",
-                    "isFound": true,
-                    "DoesContainTheDefect": true,
-                    "HowToFix": {
-                        "steps": [
-                            {
-                                "description": "Find the related button element in the file that is called when you click on the button. Here is acandidate button element that you may want to check.",
-                                "rule": "API_22",
-                                "exactLocation": true
-                            },
-                            {
-                                "description": "Parse the user input to a number.",
-                                "codeExample": "e.currentTarget.value // replace with parseInt(e.currentTarget.value)"
-                            },
-                            {
-                                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
-                            }
-                        ],
-                        "links": [
-                            {
-                                "title": "How to parse user input to a number",
-                                "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "rule": "API_25",
-                    "description": "This cuased an error when you click on the button.",
-                    "isFound": true,
-                    "DoesContainTheDefect": false
-                }
-            ]
-        }
+        "id": "EVENT_11",
+        "description": "the default behavior for the event was prevented"
+      }
+    ],
+    "Network_events": [
+      {
+        "objectShape": {
+          "type": "responseReceived",
+          "mimeType": "text/html"
+        },
+        "id": "NETWORK_1",
+        "description": "the default behavior for the event was prevented"
+      },
+      {
+        "objectShape": {
+          "type": "requestWillBeSent",
+          "method": "GET"
+        },
+        "id": "NETWORK_2",
+        "description": "the default behavior for the event was prevented"
+      },
+      {
+        "objectShape": {
+          "type": "responseReceived",
+          "mimeType": "application/json"
+        },
+        "id": "NETWORK_3",
+        "description": "the default behavior for the event was prevented"
+      }
     ]
+  },
+  "hypotheses": [
+    {
+      "id": "HYPOTHESIS_1",
+      "hypothesis": "You are not using 'preventDefault' API to prevent the default behavior of the submit button.",
+      "description": "When you use the submit button inside a form, the default behavior is to send the form data to the server and load a new page. However, this may not be the desired behavior, especially in React apps where you want to partially update the page.",
+      "tags": [
+        "incorrect add/remove item of a list of items",
+        "unexpected reload of the page"
+      ],
+      "evidence": [
+        {
+          "rule": "EVENT_2",
+          "description": "The first thing you did was typing in the input box.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "EVENT_1",
+          "description": "The you clicked on the submit button, which triggered a submit event.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_11",
+          "description": "The submit event was handled by a callback triggered after the submit event.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_1",
+          "description": "However, you did not use the preventDefault API to prevent the default behavior of the submit button. This often happen inside onSubmit event handler inside the form.",
+          "isFound": false,
+          "DoesContainTheDefect": true,
+          "HowToFix": {
+            "steps": [
+              {
+                "description": "Start by searching for the onSubmit event handler inside the form inside this file.",
+                "relatedEvidenceLocation": {
+                  "rule": "API_11",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "Inside the onSubmit event handler, add the preventDefault API to prevent the default behavior of the submit button.",
+                "codeExample": "const XXXXX = (e)=>{\n e.preventDefault() // <-- use this API inside the onSubmit callback\n}"
+              },
+              {
+                "description": "Now, when you click on the submit button, the page will not be reloaded."
+              }
+            ],
+            "links": [
+              {
+                "title": "Understanding React's preventdefault()",
+                "url": "https://sebhastian.com/react-preventdefault/#:~:text=To%20cancel%20the%20native%20behavior%20of%20the%20submit,inside%20handleSubmit%20will%20be%20run%20by%20the%20browser."
+              },
+              {
+                "title": "React Official Docs for Handling Events",
+                "url": "https://reactjs.org/docs/handling-events.html#:~:text=this%20could%20instead%20be"
+              },
+              {
+                "title": "MDN preventDefault",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault#syntax"
+              }
+            ]
+          }
+        },
+        {
+          "rule": "NETWORK_1",
+          "description": "The browser reload since the submit behaior was not prevented.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        }
+      ]
+    },
+    {
+      "id": "HYPOTHESIS_2",
+      "hypothesis": "The data received from the server is not being parsed, resulting in the program not rendering anything",
+      "description": "Data was requested from a server and received successfully. However, the data was not parsed using the response.json() API before it was used, causing the program to either crash or display the data incorrectly.",
+      "tags": [
+        "Incorrect list item addition/removal",
+        "Rendering an empty page",
+        "Unable to render data fetched from the server"
+      ],
+      "evidence": [
+        {
+          "rule": "EVENT_8",
+          "description": "The query was sent by clicking on the submit button.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "NETWORK_2",
+          "description": "The program successfully requested the data from the server.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "NETWORK_3",
+          "description": "The program received the response as a JSON object.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_3",
+          "description": "The data was not parsed using response.json() after being received from the server. Instead, the raw data was used.",
+          "isFound": false,
+          "DoesContainTheDefect": true,
+          "HowToFix": {
+            "steps": [
+              {
+                "description": "Locate where the fetch API is being used in your code. A potential location is shown in the follwing file.",
+                "relatedEvidenceLocation": {
+                  "rule": "NETWORK_3",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "Add the .json() API immediately after the fetch API.",
+                "codeExample": "fetch('A URL')\n.then(response => response.json()) // <-- add this line to your code\n.then(...)"
+              },
+              {
+                "description": "Rerun the code to see if the issue has been resolved. If the problem persists, use the Hypothesizer for further investigation."
+              }
+            ],
+            "links": [
+              {
+                "title": "Using Fetch",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch"
+              },
+              {
+                "title": "Fetch API",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "HYPOTHESIS_3",
+      "hypothesis": "The event listener for keyboard events is not attached to the correct element",
+      "description": "When a key is pressed on the keyboard, the browser triggers a key event. The event listener must be implemented and attached to the appropriate element to respond to these key events.",
+      "tags": [
+        "No response when pressing keys on the keyboard",
+        "Event listener not working"
+      ],
+      "evidence": [
+        {
+          "rule": "EVENT_1",
+          "description": "A button on the interface was clicked, causing the browser to focus on a specific element.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "EVENT_4",
+          "description": "Key(s) were pressed on the keyboard, triggering keybord events.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_10",
+          "description": "The callback (onKeyDown or onKeyUp) is attached to element(s) that did not receive the key event.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_4",
+          "description": "The key event was triggered on an element that did not have (onKeyDown or onKeyUp) attached.",
+          "isFound": false,
+          "DoesContainTheDefect": true,
+          "HowToFix": {
+            "steps": [
+              {
+                "description": "Here is an element that has (onKeyDown or onKeyUp) attached, but doesn't receive the key event. Let us call this element `ElementInStep1`.",
+                "relatedEvidenceLocation": {
+                  "rule": "API_10",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "Here is an element that receives the key event, but doesn't have (onKeyDown or onKeyUp). Let us call this element `ElementInStep2`.",
+                "relatedEvidenceLocation": {
+                  "rule": "EVENT_4",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "Remove (onKeyDown or onKeyUp) from `ElementInStep1` and add it to `ElementInStep2`.",
+                "codeExample": "...\n<ElementInStep1\nonKeyUp={callback}> // <-- remove this\n</ElementInStep1>\n ...\n<ElementInStep2\nonKeyUp={callback}> // <-- add this\n</ElementInStep2>\n ..."
+              },
+              {
+                "description": "Run the code again and check if the issue has been resolved. If not, use Hypothesizer for further investigation."
+              }
+            ],
+            "links": [
+              {
+                "title": "Using the onKeyUp event in React",
+                "url": "https://bobbyhadz.com/blog/typescript-react-onkeydown-event-type"
+              },
+              {
+                "title": "Handling Events in React",
+                "url": "https://reactjs.org/docs/handling-events.html"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "HYPOTHESIS_4",
+      "hypothesis": "You are only handling onmouseOver event, but not onmouseOut event.",
+      "description": "When you hover over an element, the browser will trigger a mouseOver event. When you move the mouse out of the element, the browser will trigger a mouseOut event. You need to implement the correct event handler to listen to the mouse events and attach the event handler to the correct element.",
+      "tags": ["no response when moving the mouse out of an element"],
+      "evidence": [
+        {
+          "rule": "EVENT_6",
+          "description": "You hovered over element(s) on the interface, which triggered mouseOver events.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_5",
+          "description": "The code handled the mouseOver event using the onmouseOver event handler.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "EVENT_7",
+          "description": "You moved the mouse out of the element(s) on the interface, which triggered mouseOut events.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_6",
+          "description": "The code did not handle the mouseOut event using the onmouseOut event handler.",
+          "isFound": false,
+          "DoesContainTheDefect": true,
+          "HowToFix": {
+            "steps": [
+              {
+                "description": "The event was triggered from the element highlighted. However, you either did not implement the event handler correctly or you attached the event handler to the wrong element. Search for where the event handler is implemented now inside the file. Search for onmouseOver. Remove the event handler from the element if you find it.",
+                "relatedEvidenceLocation": {
+                  "rule": "API_5",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "You need to add the correct event handler to the highlighted element in the above file. For example, try onmouseOut.",
+                "codeExample": "...\n<XXX\nonmouseOut={callback}> // <-- add this inside to the element highlight above. Please use the approprate callback.\n</XXX>\n..."
+              },
+              {
+                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+              }
+            ],
+            "links": [
+              {
+                "title": "Type the onmouseOut event in React",
+                "url": "https://bobbyhadz.com/blog/react-show-element-on-hover"
+              },
+              {
+                "title": "Handling Events",
+                "url": "https://reactjs.org/docs/handling-events.html"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "HYPOTHESIS_5",
+      "hypothesis": "You need to apply the animation inside setTimeout and useEffect.",
+      "description": "After React add/update an element in the DOM, it will execute the related useEffect hook. You need to apply the annimation inside the related useEffect hook by using setTimeout.",
+      "tags": ["annimation is not working"],
+      "evidence": [
+        {
+          "rule": "EVENT_8",
+          "description": "You clicked on an Element on the Interface",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_7",
+          "description": "You updated the state of the element(s) using the setState function.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "EVENT_3",
+          "description": "Updating the state cuased the element to be updated in the DOM.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_9",
+          "description": "You applied the annimation inside the useEffect hook.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_8",
+          "description": "However, you did not apply the annimation inside setTimeout, which means the annimation may be applied before the element is updated in the DOM.",
+          "isFound": false,
+          "DoesContainTheDefect": true,
+          "HowToFix": {
+            "steps": [
+              {
+                "description": "Find the related useEffect hook in the file that applied the annimation. Here is acandidate useEffect hook that you may want to check.",
+                "relatedEvidenceLocation": {
+                  "rule": "API_9",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "Add setTimeout to the useEffect hook.",
+                "codeExample": "...\nuseEffect(() => {\nsetTimeout(() => {\n// apply annimation here\n}, 0);\n}, []);\n..."
+              },
+              {
+                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+              }
+            ],
+            "links": [
+              {
+                "title": "Animation Classes & useEffect Hooks",
+                "url": "https://dev.to/avatarkaleb/animation-classes-useeffect-hooks-is-there-a-better-way-2hfn"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "HYPOTHESIS_6",
+      "hypothesis": "You are not alighing the elements correctly, which causes the elements to overlap",
+      "description": "There is an html that colluded with the button you are trying to click. You need to align the elements correctly to avoid the colusion.",
+      "tags": ["button is not clickable"],
+      "evidence": [
+        {
+          "rule": "EVENT_9",
+          "description": "You clicked on an DIV element on the Interface",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "EVENT_10",
+          "description": "However, you did not click on any button element.",
+          "isFound": false,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_12",
+          "description": "The reason might be that the button is not clickable because it is covered by the other div element.",
+          "isFound": true,
+          "DoesContainTheDefect": true,
+          "HowToFix": {
+            "steps": [
+              {
+                "description": "The button is covered by this div element. You need to align the div element correctly to avoid the colusion.",
+                "relatedEvidenceLocation": {
+                  "rule": "EVENT_9",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "You can also change the z-index of the div element or the button element to avoid the colusion.",
+                "relatedEvidenceLocation": {
+                  "rule": "API_12",
+                  "exactLocation": true
+                }
+              }
+            ],
+            "links": [
+              {
+                "title": "How to align elements in CSS",
+                "url": "https://www.w3schools.com/css/css_align.asp"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "HYPOTHESIS_7",
+      "hypothesis": " You are not explicitly passing the props to the onClick event handler.",
+      "description": "The onclick handler needs to be explicitly passed the props to the callback function.",
+      "tags": ["clicking on the button behaves unexpectedly"],
+      "evidence": [
+        {
+          "rule": "EVENT_10",
+          "description": "You clicked on an Button element on the Interface",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_14",
+          "description": "You this trigger the onClick event handler in one of the buttons generated by the map function.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_15",
+          "description": "However, you did not pass any props to the onClick event handler.",
+          "isFound": true,
+          "DoesContainTheDefect": true,
+          "HowToFix": {
+            "steps": [
+              {
+                "description": "Find the related onClick event handler in the file that is called when you click on the button. Here is acandidate onClick event handler that you may want to check.",
+                "relatedEvidenceLocation": {
+                  "rule": "API_14",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "Pass the props to the onClick event handler.",
+                "codeExample": "...\n<Button onClick={() => CALL_BACK(props)}>\n...\n</Button>\n..."
+              },
+              {
+                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+              }
+            ],
+            "links": [
+              {
+                "title": "Passing props to onClick event handler",
+                "url": "https://stackoverflow.com/questions/37620694/passing-props-to-onclick-event-handler"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "HYPOTHESIS_8",
+      "hypothesis": " You are not updating the state of the element(s) after the onClick event handler is called.",
+      "description": "The state of the element(s) needs to be updated after the onClick event handler is called.",
+      "tags": ["clicking on the button does nothing"],
+      "evidence": [
+        {
+          "rule": "EVENT_8",
+          "description": "You clicked on an Button element on the Interface",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_24",
+          "description": "You triggered the onClick event handler in the button.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_13",
+          "description": "However, inside the onClick event handler, you did not update the state of the element(s).",
+          "isFound": true,
+          "DoesContainTheDefect": true,
+          "HowToFix": {
+            "steps": [
+              {
+                "description": "Find the related onClick event handler in the file that applied the annimation. Here is acandidate onClick event handler that you may want to check.",
+                "relatedEvidenceLocation": {
+                  "rule": "API_24",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "Add the setState function to the onClick event handler.",
+                "codeExample": "...\n<button onClick={() => {\n// update the state of the element(s) here\n}}>\n..."
+              },
+              {
+                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+              }
+            ],
+            "links": [
+              {
+                "title": "How to update the state of the element(s) in React",
+                "url": "https://reactjs.org/docs/hooks-state.html"
+              }
+            ]
+          }
+        },
+        {
+          "rule": "API_7",
+          "description": "There was no call to the setState function inside the onClick event handler.",
+          "isFound": false,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_25",
+          "description": "There was no error that might prevent the state of the element(s) from being updated.",
+          "isFound": false,
+          "DoesContainTheDefect": false
+        }
+      ]
+    },
+    {
+      "id": "HYPOTHESIS_9",
+      "hypothesis": " You are not assigning a type to the button element.",
+      "description": "If a button is within a form element and it does not have a type attribute or the type attribute is set to 'submit', the button will act as a submit button and the form will be submitted when the button is clicked. ",
+      "tags": ["clicking on the button does something unexpected"],
+      "evidence": [
+        {
+          "rule": "EVENT_10",
+          "description": "You clicked on an Button element on the Interface",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_16",
+          "description": "The button was within a form element.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_17",
+          "description": "However, the button did not have a type attribute or the type attribute was set to 'submit'.",
+          "isFound": true,
+          "DoesContainTheDefect": true,
+          "HowToFix": {
+            "steps": [
+              {
+                "description": "Find the related button element in the file that is called when you click on the button. Here is acandidate button element that you may want to check.",
+                "relatedEvidenceLocation": {
+                  "rule": "EVENT_10",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "Add the type attribute to the button element and set it to 'button'.",
+                "codeExample": "...\n<button type=\"button\">\n..."
+              },
+              {
+                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+              }
+            ],
+            "links": [
+              {
+                "title": "How to set the type of a button element",
+                "url": "https://www.w3schools.com/tags/att_button_type.asp"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "HYPOTHESIS_10",
+      "hypothesis": "You are not placeing the label element correctly.",
+      "description": "The label element should be placed before the input element and inside the loop.",
+      "tags": ["clicking on the radio button choice selects the wrong choice"],
+      "evidence": [
+        {
+          "rule": "API_18",
+          "description": "You generated mutiple radio button choices using the map function.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "EVENT_11",
+          "description": "You clicked on an Radio element on the Interface",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_19",
+          "description": "The label element was placed outside the loop.",
+          "isFound": true,
+          "DoesContainTheDefect": true,
+          "HowToFix": {
+            "steps": [
+              {
+                "description": "Find the related label element in the file that is called when you click on the radio button choice. Here is acandidate label element that you may want to check.",
+                "relatedEvidenceLocation": {
+                  "rule": "API_19",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "Place the label element inside the loop.",
+                "codeExample": "...\n"
+              },
+              {
+                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+              }
+            ],
+            "links": [
+              {
+                "title": "How to place the label element correctly",
+                "url": "https://www.w3schools.com/tags/tag_label.asp"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "HYPOTHESIS_11",
+      "hypothesis": " You are not using currentTarget API to get the button id.",
+      "description": "The currentTarget API is used to get the id of the button that is clicked. However, you are using the target API to get the button id.",
+      "tags": [
+        "clicking on the button does nothin",
+        "clicking on the button throws an error"
+      ],
+      "evidence": [
+        {
+          "rule": "EVENT_8",
+          "description": "You clicked on an Button element on the Interface",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_20",
+          "description": "You have set the value of the button and plan to get it when the button is clicked.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_21",
+          "description": "However, you are using the target API to get the button id.",
+          "isFound": true,
+          "DoesContainTheDefect": true,
+          "HowToFix": {
+            "steps": [
+              {
+                "description": "Find the related button element in the file that is called when you click on the button. Here is acandidate button element that you may want to check.",
+                "relatedEvidenceLocation": {
+                  "rule": "API_21",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "Replace the target API with the currentTarget API.",
+                "codeExample": "e.target.value // replace with e.currentTarget.value"
+              },
+              {
+                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+              }
+            ],
+            "links": [
+              {
+                "title": "How to use the currentTarget API",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/API/Event/currentTarget"
+              }
+            ]
+          }
+        },
+        {
+          "rule": "API_25",
+          "description": "This cuased an error when you click on the button.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        }
+      ]
+    },
+    {
+      "id": "HYPOTHESIS_12",
+      "hypothesis": " You are not parsing user input to a number.",
+      "description": "The user input should be parsed to a number before it is used in the calculation.",
+      "tags": [
+        "clicking on the button does nothin",
+        "clicking on the button behaves unexpectedly"
+      ],
+      "evidence": [
+        {
+          "rule": "EVENT_8",
+          "description": "You clicked on an Button element on the Interface",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_20",
+          "description": "You have set the value of the button and plan to get it when the button is clicked. The value of type string now",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        },
+        {
+          "rule": "API_22",
+          "description": "However, you did not parse the user input to a number.",
+          "isFound": true,
+          "DoesContainTheDefect": true,
+          "HowToFix": {
+            "steps": [
+              {
+                "description": "Find the related button element in the file that is called when you click on the button. Here is acandidate button element that you may want to check.",
+                "rule": "API_22",
+                "exactLocation": true
+              },
+              {
+                "description": "Parse the user input to a number.",
+                "codeExample": "e.currentTarget.value // replace with parseInt(e.currentTarget.value)"
+              },
+              {
+                "description": "Try to run the code again and see if the problem is fixed. If not, please use Hypothesizer again for futher investigation."
+              }
+            ],
+            "links": [
+              {
+                "title": "How to parse user input to a number",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt"
+              }
+            ]
+          }
+        },
+        {
+          "rule": "API_25",
+          "description": "This cuased an error when you click on the button.",
+          "isFound": true,
+          "DoesContainTheDefect": false
+        }
+      ]
+    },
+    {
+      "id": "HYPOTHESIS_13",
+      "hypothesis": "The setState method in React does not immediately mutate the state.",
+      "description": "When using the setState method in React, state updates are not synchronous. The setState method creates a pending state transition and does not immediately mutate the state. Accessing the state immediately after calling setState may return the previous value. This asynchronous behavior is optimized for performance.",
+      "tags": [
+        "asynchronous state updates",
+        "pending state transition",
+        "performance optimization"
+      ],
+      "evidence": [
+        {
+          "rule": "API_26",
+          "description": "Usage of useState function was detected with improper lifecycle hook containment",
+          "isFound": true,
+          "DoesContainTheDefect": true,
+          "HowToFix": {
+            "steps": [
+              {
+                "description": "UseEffect should be wrapping any statements using useState to ensure synchronous update",
+                "relatedEvidenceLocation": {
+                  "rule": "API_26",
+                  "exactLocation": true
+                }
+              }
+            ],
+            "links": [
+              {
+                "title": "React Hooks API",
+                "url": "https://reactjs.org/docs/hooks-overview.html"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
 }
