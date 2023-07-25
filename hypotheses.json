@@ -5,10 +5,10 @@
         "functionName": "useState",
         "patterns": [
           {
-            "pattern": "[$VAR, ...] = useState(...); ... console.log(..., $VAR, ...);"
+            "pattern": "[$VAR, ...] = useState(...);\n ... \nconsole.log(..., $VAR, ...);"
           },
           {
-            "pattern-not": "[$VAR, ...] = useState(...); ... useEffect(...,[$VAR]) ... console.log(..., $VAR, ...);"
+            "pattern-not": "[$VAR, ...] = useState(...);\n ... \nuseEffect(...,[$VAR])\n ... \nconsole.log(..., $VAR, ...);"
           }
         ],
         "id": "API_26",
