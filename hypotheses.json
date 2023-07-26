@@ -5,14 +5,23 @@
         "functionName": "useState",
         "patterns": [
           {
-            "pattern": "[$VAR, ...] = useState(...);\n ... \nconsole.log(..., $VAR, ...);"
+            "pattern": "[$VAR, ...] = useState(...); ... console.log(..., $VAR, ...);"
           },
           {
-            "pattern-not": "[$VAR, ...] = useState(...);\n ... \nuseEffect(...,[$VAR])\n ... \nconsole.log(..., $VAR, ...);"
+            "pattern-not": "[$VAR, ...] = useState(...); ... useEffect(...,[$VAR]) ... console.log(..., $VAR, ...);"
           }
         ],
         "id": "API_26",
         "description": "the state was updated inccorectly"
+      },
+      {
+        "functionName": "addEventListener",
+        "patterns": [
+          {
+            "pattern": "$ELEMENT.addEventListener($EVENT, $HANDLER, ...);\n...\n$ELEMENT.addEventListener($EVENT, $HANDLER, ...);"
+          }
+        ],
+        "id": "API_27"
       },
       {
         "functionName": "preventDefault",
@@ -1231,6 +1240,52 @@
               {
                 "title": "React Hooks API",
                 "url": "https://reactjs.org/docs/hooks-overview.html"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "HYPOTHESIS_14",
+      "hypothesis": "Multiple event listeners registered on the same element are causing the callback function to be executed multiple times, potentially leading to unintended side effects or duplicate processing.",
+      "description": "When multiple event listeners of the same type are registered on a single element, each event listener will trigger its corresponding callback function when the event occurs. This can result in the callback being executed multiple times, leading to unexpected behavior and issues.",
+      "tags": [
+        "multiple event listeners",
+        "callback execution",
+        "unintended side effects"
+      ],
+      "evidence": [
+        {
+          "rule": "API_27",
+          "description": "The same event listener is added more than once to an element. This could cause the callback function to be invoked multiple times, potentially leading to unexpected behavior.",
+          "isFound": true,
+          "DoesContainTheDefect": true,
+          "HowToFix": {
+            "steps": [
+              {
+                "description": "Identify the element where multiple event listeners of the same type were registered. Let us call this element `ElementWithIssue`.",
+                "relatedEvidenceLocation": {
+                  "rule": "API_27",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "Remove the duplicate event listeners from `ElementWithIssue`.",
+                "codeExample": "...\n<ElementWithIssue.addEventListener('click', clickHandler);> // <-- remove duplicates\n<ElementWithIssue>"
+              },
+              {
+                "description": "Run the code again and check if the issue has been resolved. If not, additional investigation might be necessary."
+              }
+            ],
+            "links": [
+              {
+                "title": "Understanding Event Handlers in JavaScript",
+                "url": "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events"
+              },
+              {
+                "title": "Handling events in JavaScript",
+                "url": "https://javascript.info/introduction-browser-events"
               }
             ]
           }
