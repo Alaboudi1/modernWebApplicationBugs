@@ -2,28 +2,6 @@
   "evidence": {
     "API_calls": [
       {
-        "functionName": "useState",
-        "patterns": [
-          {
-            "pattern": "[$VAR, ...] = useState(...);\n ... \nconsole.log(..., $VAR, ...);"
-          },
-          {
-            "pattern-not": "[$VAR, ...] = useState(...);\n ... \nuseEffect(...,[$VAR])\n ... \nconsole.log(..., $VAR, ...);"
-          }
-        ],
-        "id": "API_26",
-        "description": "the state was updated inccorectly"
-      },
-      {
-        "functionName": "addEventListener",
-        "patterns": [
-          {
-            "pattern": "$ELEMENT.addEventListener($EVENT, $HANDLER, ...);\n...\n$ELEMENT.addEventListener($EVENT, $HANDLER, ...);"
-          }
-        ],
-        "id": "API_27"
-      },
-      {
         "functionName": "preventDefault",
         "patterns": [
           {
@@ -389,6 +367,30 @@
         ],
         "id": "API_25",
         "description": "the state was updated inccorectly"
+      },
+      {
+        "patterns": [
+          {
+            "pattern": "const [$VAR, $SETVAR] = useState(...);\nconst $HANDLER = () => {\n$SETVAR(...);\n};\n...\nreturn (\n<$CONTAINER>\n...\n<$BUTTON ... onClick={$HANDLER} ...>...</$BUTTON>\n<$DISPLAY ...>... {$VAR} ...</$DISPLAY>\n...\n</$CONTAINER>\n);\n..."
+          }
+        ],
+        "id": "REACT_1"
+      },
+      {
+        "patterns": [
+          {
+            "pattern": "const $CHILD_COMPONENT = ({ $PROP }) => {\n...\n$PROP.$PROP_FIELD = $VALUE;\n...\nreturn (\n<$CONTAINER>\n...\n</$CONTAINER>\n);\n};\nconst $PARENT_COMPONENT = () => {\nconst [$STATE, $SET_STATE] = useState({ ... });\nreturn (\n<$CHILD_COMPONENT $PROP={$STATE} />\n);\n};"
+          }
+        ],
+        "id": "REACT_2"
+      },
+      {
+        "patterns": [
+          {
+            "pattern": "const $CHILD = () => {\nconst $CHILD_HANDLER = (event) => {\nconsole.log('Child component clicked');\n};\nreturn (\n<$BUTTON onClick={$CHILD_HANDLER}>...</$BUTTON>\n);\n};\n...\nconst $PARENT = () => {\nconst $PARENT_HANDLER = () => {\nconsole.log('Parent component clicked');\n};\nreturn (\n<$CONTAINER onClick={$PARENT_HANDLER}>\n<$CHILD ... />\n</$CONTAINER>\n);\n}"
+          }
+        ],
+        "id": "REACT_3"
       }
     ],
     "DOM_events": [
@@ -725,7 +727,7 @@
         },
         {
           "rule": "API_5",
-          "description": "The code handled the mouseOver event using the onmouseOver event handler.",
+          "description": "The code hanlded the mouseOver event using the onmouseOver event handler.",
           "isFound": true,
           "DoesContainTheDefect": false
         },
@@ -760,7 +762,7 @@
             "links": [
               {
                 "title": "Type the onmouseOut event in React",
-                "url": "https://bobbyhadz.com/blog/react-show-element-on-hover"
+                "url": "https://bobbyhadz.com/blog/typescript-react-onmouseOut-event-type"
               },
               {
                 "title": "Handling Events",
@@ -1213,33 +1215,101 @@
     },
     {
       "id": "HYPOTHESIS_13",
-      "hypothesis": "The setState method in React does not immediately mutate the state.",
-      "description": "When using the setState method in React, state updates are not synchronous. The setState method creates a pending state transition and does not immediately mutate the state. Accessing the state immediately after calling setState may return the previous value. This asynchronous behavior is optimized for performance.",
-      "tags": [
-        "asynchronous state updates",
-        "pending state transition",
-        "performance optimization"
-      ],
+      "hypothesis": "The issue is due to improper handling of state updates in an event handler function, check the types of your initial value in useState()",
+      "description": "Incorrect initialization of state with a different type than the event handler expects.",
+      "tags": ["state update", "incorrect types"],
       "evidence": [
         {
-          "rule": "API_26",
-          "description": "Usage of useState function was detected with improper lifecycle hook containment",
+          "rule": "REACT_1",
+          "description": "Incorrect initialization of state.",
           "isFound": true,
-          "DoesContainTheDefect": true,
+          "DoesContainTheDefect": false,
           "HowToFix": {
             "steps": [
               {
-                "description": "UseEffect should be wrapping any statements using useState to ensure synchronous update",
+                "description": "Ensure that the state is correctly initialized as the type used by your event handler.",
                 "relatedEvidenceLocation": {
-                  "rule": "API_26",
+                  "rule": "REACT_1",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "In the eventHandler function, update the state using the correct types.",
+                "relatedEvidenceLocation": {
+                  "rule": "REACT_1",
                   "exactLocation": true
                 }
               }
             ],
             "links": [
               {
-                "title": "React Hooks API",
-                "url": "https://reactjs.org/docs/hooks-overview.html"
+                "title": "React useState() documentation",
+                "url": "https://reactjs.org/docs/hooks-state.html"
+              },
+              {
+                "title": "JavaScript Number",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "HYPOTHESIS_15",
+      "hypothesis": "Event propagation from child to parent component is causing unintended side effects.",
+      "description": "When an event is triggered in the child component, it propagates to the parent component, leading to unintended effects. By calling event.stopPropagation() in the child component's event handler, we prevent the event from bubbling up to the parent component, which should resolve the issue.",
+      "tags": [
+        "event propagation",
+        "parent-child components",
+        "event handling"
+      ],
+      "evidence": [
+        {
+          "rule": "REACT_3",
+          "description": "Child component triggers the handleParentClick event handler in the parent component due to event propagation, causing unintended side effects.",
+          "isFound": true,
+          "DoesContainTheDefect": true,
+          "HowToFix": {
+            "steps": [
+              {
+                "description": "Add event.stopPropagation() in the child event handler to prevent the event from bubbling up to the parent component.",
+                "relatedEvidenceLocation": {
+                  "rule": "REACT_3",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "Ensure proper event binding and handle asynchronous operations correctly.",
+                "relatedEvidenceLocation": {
+                  "rule": "REACT_3",
+                  "exactLocation": false
+                }
+              },
+              {
+                "description": "Understanding React's synthetic events and React's event system can help in avoiding and resolving these issues.",
+                "relatedEvidenceLocation": {
+                  "rule": "REACT_3",
+                  "exactLocation": false
+                }
+              }
+            ],
+            "links": [
+              {
+                "title": "How to call stopPropagation in reactjs",
+                "url": "https://stackoverflow.com/questions/35914680/how-to-call-stoppropagation-in-reactjs"
+              },
+              {
+                "title": "Event Listeners In React Version 16 and before VS Version 17+",
+                "url": "https://www.freecodecamp.org/news/event-propagation-event-bubbling-event-catching-beginners-guide/"
+              },
+              {
+                "title": "Best Practices for Handling Events in React",
+                "url": "https://dev.to/sidramaqbool/handling-events-in-react-with-best-practices-and-examples-1d75"
+              },
+              {
+                "title": "Using event.stopPropagation() in React",
+                "url": "https://blog.logrocket.com/event-bubbling-capturing-react/"
               }
             ]
           }
@@ -1248,44 +1318,70 @@
     },
     {
       "id": "HYPOTHESIS_14",
-      "hypothesis": "Multiple event listeners registered on the same element are causing the callback function to be executed multiple times, potentially leading to unintended side effects or duplicate processing.",
-      "description": "When multiple event listeners of the same type are registered on a single element, each event listener will trigger its corresponding callback function when the event occurs. This can result in the callback being executed multiple times, leading to unexpected behavior and issues.",
-      "tags": [
-        "multiple event listeners",
-        "callback execution",
-        "unintended side effects"
-      ],
+      "hypothesis": "Direct mutation of the 'data' object in the child component is causing unintended side effects in the parent component.",
+      "description": "When the child component directly modifies the 'data' object received as a prop, it affects the original object in the parent component, leading to unintended side effects and rendering issues. To resolve this, avoid direct mutations and consider using object cloning or immutability principles.",
+      "tags": ["props mutation", "unintended side effects"],
       "evidence": [
         {
-          "rule": "API_27",
-          "description": "The same event listener is added more than once to an element. This could cause the callback function to be invoked multiple times, potentially leading to unexpected behavior.",
+          "rule": "REACT_2",
+          "description": "Props-related bugs can be fixed by passing the correct data types, providing all required props, and avoiding direct mutations of objects passed as props. Utilizing prop validation with PropTypes or TypeScript can help catch some of these issues at compile-time. Additionally, following a unidirectional data flow and immutability principles can help prevent unexpected behavior related to props in React components.",
           "isFound": true,
           "DoesContainTheDefect": true,
           "HowToFix": {
             "steps": [
               {
-                "description": "Identify the element where multiple event listeners of the same type were registered. Let us call this element `ElementWithIssue`.",
+                "description": "Ensure to pass the correct data types and all required props to the child components.",
                 "relatedEvidenceLocation": {
-                  "rule": "API_27",
+                  "rule": "REACT_2",
                   "exactLocation": true
                 }
               },
               {
-                "description": "Remove the duplicate event listeners from `ElementWithIssue`.",
-                "codeExample": "...\n<ElementWithIssue.addEventListener('click', clickHandler);> // <-- remove duplicates\n<ElementWithIssue>"
+                "description": "Avoid direct mutations of objects passed as props.",
+                "relatedEvidenceLocation": {
+                  "rule": "REACT_2",
+                  "exactLocation": true
+                }
               },
               {
-                "description": "Run the code again and check if the issue has been resolved. If not, additional investigation might be necessary."
+                "description": "Consider using PropTypes or TypeScript for prop validation to catch issues at compile-time.",
+                "relatedEvidenceLocation": {
+                  "rule": "REACT_2",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "Follow a unidirectional data flow and immutability principles to prevent unexpected behavior.",
+                "relatedEvidenceLocation": {
+                  "rule": "REACT_2",
+                  "exactLocation": true
+                }
               }
             ],
             "links": [
               {
-                "title": "Understanding Event Handlers in JavaScript",
-                "url": "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events"
+                "title": "How to validate React props using PropTypes",
+                "url": "https://blog.logrocket.com/validate-react-props-proptypes/"
               },
               {
-                "title": "Handling events in JavaScript",
-                "url": "https://javascript.info/introduction-browser-events"
+                "title": "React Props Cheatsheet: 10 Patterns You Should Know",
+                "url": "https://www.freecodecamp.org/news/react-props-cheatsheet/"
+              },
+              {
+                "title": "Mastering Props and PropTypes in React",
+                "url": "https://www.smashingmagazine.com/2020/08/mastering-props-proptypes-react/"
+              },
+              {
+                "title": "The Beginner's guide to mastering React props",
+                "url": "https://blog.logrocket.com/the-beginners-guide-to-mastering-react-props-3f6f01fd7099/"
+              },
+              {
+                "title": "Passing props in React using Typescript",
+                "url": "https://dev.to/mconner89/passing-props-in-react-using-typescript-20lm"
+              },
+              {
+                "title": "React + TypeScript: Working with Props and Types of Props",
+                "url": "https://www.kindacode.com/article/react-typescript-working-with-props-and-types-of-props/"
               }
             ]
           }
