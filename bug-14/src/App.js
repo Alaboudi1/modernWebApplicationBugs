@@ -1,41 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-function Fetcher() {
-  const [clicks, setClicks] = useState(0);
-  const [movies, setMovies] = useState([]);
+const ChildComponent = (props) => {
+  // Trying to update the prop directly
+  const handleClick = () => {
+    props.count++;
+  };
 
-  useEffect(() => {
-    try {
-      const result = [
-        {
-          category: "cat1",
-          description: "desc1",
-          id: "1546514491119",
-          name: "randomname2",
-          photo: null,
-          rating: "3",
-        },
-        {
-          category: "cat2",
-          description: "desc1",
-          id: "1546837819818",
-          name: "randomname1",
-          rating: "5",
-        },
-      ];
-      console.log("result =", result);
-      setMovies(result);
-      console.log("movies =", movies);
-    } catch (e) {
-      console.error(e);
-    }
-  }, [clicks]);
+  return <button onClick={handleClick}>Click Me</button>;
+};
+
+const ParentComponent = () => {
+  const [count, setCount] = useState(0);
 
   return (
     <div>
-      <button onClick={() => setClicks(clicks + 1)}>CLICK</button>
+      <p>Count: {count}</p>
+      <ChildComponent count={count} />
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <div className="App">
+      <ParentComponent />
     </div>
   );
 }
 
-export default Fetcher;
+export default App;

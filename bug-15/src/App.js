@@ -1,41 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-function Fetcher() {
-  const [clicks, setClicks] = useState(0);
-  const [movies, setMovies] = useState([]);
+const ButtonList = () => {
+  const handleClick = (index) => {
+    console.log(`Button ${index + 1} clicked`);
+  };
 
-  useEffect(() => {
-    try {
-      const result = [
-        {
-          category: "cat1",
-          description: "desc1",
-          id: "1546514491119",
-          name: "randomname2",
-          photo: null,
-          rating: "3",
-        },
-        {
-          category: "cat2",
-          description: "desc1",
-          id: "1546837819818",
-          name: "randomname1",
-          rating: "5",
-        },
-      ];
-      console.log("result =", result);
-      setMovies(result);
-      console.log("movies =", movies);
-    } catch (e) {
-      console.error(e);
-    }
-  }, [clicks]);
+  const buttonArray = [1, 2, 3];
 
   return (
     <div>
-      <button onClick={() => setClicks(clicks + 1)}>CLICK</button>
+      {buttonArray.map((button, index) => (
+        <button key={index} onClick={() => handleClick(index)}>
+          Button {button}
+        </button>
+      ))}
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <div className="App">
+      <ButtonList />
     </div>
   );
 }
 
-export default Fetcher;
+export default App;

@@ -1,41 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 
-function Fetcher() {
-  const [clicks, setClicks] = useState(0);
-  const [movies, setMovies] = useState([]);
+class MyComponent extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>{this.props.title}</h1>
+        <p>{this.props.content}</p>
+      </div>
+    );
+  }
+}
 
-  useEffect(() => {
-    try {
-      const result = [
-        {
-          category: "cat1",
-          description: "desc1",
-          id: "1546514491119",
-          name: "randomname2",
-          photo: null,
-          rating: "3",
-        },
-        {
-          category: "cat2",
-          description: "desc1",
-          id: "1546837819818",
-          name: "randomname1",
-          rating: "5",
-        },
-      ];
-      console.log("result =", result);
-      setMovies(result);
-      console.log("movies =", movies);
-    } catch (e) {
-      console.error(e);
-    }
-  }, [clicks]);
+MyComponent.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.number.isRequired,
+};
 
+function App() {
   return (
-    <div>
-      <button onClick={() => setClicks(clicks + 1)}>CLICK</button>
+    <div className="App">
+      <MyComponent title="Hello, world!" content="This is a test." />
     </div>
   );
 }
 
-export default Fetcher;
+export default App;
