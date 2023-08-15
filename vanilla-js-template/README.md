@@ -1,4 +1,4 @@
-## Use this as a starting point for developing Vanilla JS Bugs
+# _Use this as a starting point for developing Vanilla JS Bugs to test with Hypothesizer_
 
 [node]: https://nodejs.org/en
 [yarn]: https://yarnpkg.com
