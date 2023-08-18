@@ -1,0 +1,10 @@
+rules:
+  - id: react-improper-prop-type
+    languages:
+      - javascript
+    message: The prop type is defined incorrectly. It should be a string.
+    severity: ERROR
+    pattern: |
+      $COMPONENT.propTypes = {
+        $PROP: PropTypes.number.isRequired,
+      };

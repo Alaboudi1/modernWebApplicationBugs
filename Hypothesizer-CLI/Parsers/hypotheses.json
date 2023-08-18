@@ -374,7 +374,7 @@
             "pattern": "const [$VAR, $SETVAR] = useState(...);\nconst $HANDLER = () => {\n$SETVAR(...);\n};\n...\nreturn (\n<$CONTAINER>\n...\n<$BUTTON ... onClick={$HANDLER} ...>...</$BUTTON>\n<$DISPLAY ...>... {$VAR} ...</$DISPLAY>\n...\n</$CONTAINER>\n);\n..."
           }
         ],
-        "id": "REACT_13"
+        "id": "REACT_1"
       },
       {
         "patterns": [
@@ -382,7 +382,7 @@
             "pattern": "const $CHILD_COMPONENT = ({ $PROP }) => {\n...\n$PROP.$PROP_FIELD = $VALUE;\n...\nreturn (\n<$CONTAINER>\n...\n</$CONTAINER>\n);\n};\nconst $PARENT_COMPONENT = () => {\nconst [$STATE, $SET_STATE] = useState({ ... });\nreturn (\n<$CHILD_COMPONENT $PROP={$STATE} />\n);\n};"
           }
         ],
-        "id": "REACT_14"
+        "id": "REACT_2"
       },
       {
         "patterns": [
@@ -390,50 +390,7 @@
             "pattern": "const $CHILD = () => {\nconst $CHILD_HANDLER = (event) => {\nconsole.log('Child component clicked');\n};\nreturn (\n<$BUTTON onClick={$CHILD_HANDLER}>...</$BUTTON>\n);\n};\n...\nconst $PARENT = () => {\nconst $PARENT_HANDLER = () => {\nconsole.log('Parent component clicked');\n};\nreturn (\n<$CONTAINER onClick={$PARENT_HANDLER}>\n<$CHILD ... />\n</$CONTAINER>\n);\n}"
           }
         ],
-        "id": "REACT_15"
-      },
-      {
-        "patterns": [
-          {
-            "pattern": "const $COMPONENT = (props) => {\nconst $FUNCTION = () => {\nprops.$PROP++;\n};\n...\n};\n"
-          }
-        ],
-        "id": "REACT_16"
-      },
-      {
-        "patterns": [
-          {
-            "pattern": "const $FUNCTION_NAME = () => {\nconst $HANDLER_NAME = ($PARAM) => { ... };\nconst $ARRAY_NAME = [...];\nreturn (\n<div>\n{$ARRAY_NAME.map(($ITEM, $INDEX) => (\n<$ELEMENT key={$INDEX} onClick={() => $HANDLER_NAME($INDEX)}>\n...\n</$ELEMENT>\n))}\n</div>\n);\n};"
-          }
-        ],
-        "id": "REACT_17"
-      },
-      {
-        "patterns": [
-          {
-            "pattern": "const $LIST = [...];\n...\nreturn (\n<ul>\n{$LIST.map($ITEM => (\n<li key={$ITEM.$PROP}>...</li>\n))}\n</ul>\n);"
-          },
-          {
-            "pattern-not": "const $LIST = [...];\n...\nreturn (\n<ul>\n{$LIST.map($ITEM => (\n<li key={$ITEM.id}>...</li>\n))}\n</ul>\n);"
-          }
-        ],
-        "id": "REACT_18"
-      },
-      {
-        "patterns": [
-          {
-            "pattern": "$COMPONENT.propTypes = {\n$PROP: PropTypes.number.isRequired,\n};"
-          }
-        ],
-        "id": "REACT_19"
-      },
-      {
-        "patterns": [
-          {
-            "pattern": "class $CLASS_NAME extends React.Component {\n$METHOD_NAME = async () => {\n...\n}\nrender() {\nreturn (\n<button onClick={this.$METHOD_NAME}>...</button>\n);\n}\n}\nfix: |\nclass $CLASS_NAME extends React.Component {\n$METHOD_NAME = () => {\n...\n}\nrender() {\nreturn (\n<button onClick={this.$METHOD_NAME}>...</button>\n);\n}\n}"
-          }
-        ],
-        "id": "REACT_20"
+        "id": "REACT_3"
       }
     ],
     "DOM_events": [
@@ -1263,7 +1220,7 @@
       "tags": ["state update", "incorrect types"],
       "evidence": [
         {
-          "rule": "REACT_13",
+          "rule": "REACT_1",
           "description": "Incorrect initialization of state.",
           "isFound": true,
           "DoesContainTheDefect": false,
@@ -1272,14 +1229,14 @@
               {
                 "description": "Ensure that the state is correctly initialized as the type used by your event handler.",
                 "relatedEvidenceLocation": {
-                  "rule": "REACT_13",
+                  "rule": "REACT_1",
                   "exactLocation": true
                 }
               },
               {
                 "description": "In the eventHandler function, update the state using the correct types.",
                 "relatedEvidenceLocation": {
-                  "rule": "REACT_13",
+                  "rule": "REACT_1",
                   "exactLocation": true
                 }
               }
@@ -1299,13 +1256,74 @@
       ]
     },
     {
+      "id": "HYPOTHESIS_15",
+      "hypothesis": "Event propagation from child to parent component is causing unintended side effects.",
+      "description": "When an event is triggered in the child component, it propagates to the parent component, leading to unintended effects. By calling event.stopPropagation() in the child component's event handler, we prevent the event from bubbling up to the parent component, which should resolve the issue.",
+      "tags": [
+        "event propagation",
+        "parent-child components",
+        "event handling"
+      ],
+      "evidence": [
+        {
+          "rule": "REACT_3",
+          "description": "Child component triggers the handleParentClick event handler in the parent component due to event propagation, causing unintended side effects.",
+          "isFound": true,
+          "DoesContainTheDefect": true,
+          "HowToFix": {
+            "steps": [
+              {
+                "description": "Add event.stopPropagation() in the child event handler to prevent the event from bubbling up to the parent component.",
+                "relatedEvidenceLocation": {
+                  "rule": "REACT_3",
+                  "exactLocation": true
+                }
+              },
+              {
+                "description": "Ensure proper event binding and handle asynchronous operations correctly.",
+                "relatedEvidenceLocation": {
+                  "rule": "REACT_3",
+                  "exactLocation": false
+                }
+              },
+              {
+                "description": "Understanding React's synthetic events and React's event system can help in avoiding and resolving these issues.",
+                "relatedEvidenceLocation": {
+                  "rule": "REACT_3",
+                  "exactLocation": false
+                }
+              }
+            ],
+            "links": [
+              {
+                "title": "How to call stopPropagation in reactjs",
+                "url": "https://stackoverflow.com/questions/35914680/how-to-call-stoppropagation-in-reactjs"
+              },
+              {
+                "title": "Event Listeners In React Version 16 and before VS Version 17+",
+                "url": "https://www.freecodecamp.org/news/event-propagation-event-bubbling-event-catching-beginners-guide/"
+              },
+              {
+                "title": "Best Practices for Handling Events in React",
+                "url": "https://dev.to/sidramaqbool/handling-events-in-react-with-best-practices-and-examples-1d75"
+              },
+              {
+                "title": "Using event.stopPropagation() in React",
+                "url": "https://blog.logrocket.com/event-bubbling-capturing-react/"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "HYPOTHESIS_14",
       "hypothesis": "Direct mutation of the 'data' object in the child component is causing unintended side effects in the parent component.",
       "description": "When the child component directly modifies the 'data' object received as a prop, it affects the original object in the parent component, leading to unintended side effects and rendering issues. To resolve this, avoid direct mutations and consider using object cloning or immutability principles.",
       "tags": ["props mutation", "unintended side effects"],
       "evidence": [
         {
-          "rule": "REACT_14",
+          "rule": "REACT_2",
           "description": "Props-related bugs can be fixed by passing the correct data types, providing all required props, and avoiding direct mutations of objects passed as props. Utilizing prop validation with PropTypes or TypeScript can help catch some of these issues at compile-time. Additionally, following a unidirectional data flow and immutability principles can help prevent unexpected behavior related to props in React components.",
           "isFound": true,
           "DoesContainTheDefect": true,
@@ -1314,28 +1332,28 @@
               {
                 "description": "Ensure to pass the correct data types and all required props to the child components.",
                 "relatedEvidenceLocation": {
-                  "rule": "REACT_14",
+                  "rule": "REACT_2",
                   "exactLocation": true
                 }
               },
               {
                 "description": "Avoid direct mutations of objects passed as props.",
                 "relatedEvidenceLocation": {
-                  "rule": "REACT_14",
+                  "rule": "REACT_2",
                   "exactLocation": true
                 }
               },
               {
                 "description": "Consider using PropTypes or TypeScript for prop validation to catch issues at compile-time.",
                 "relatedEvidenceLocation": {
-                  "rule": "REACT_14",
+                  "rule": "REACT_2",
                   "exactLocation": true
                 }
               },
               {
                 "description": "Follow a unidirectional data flow and immutability principles to prevent unexpected behavior.",
                 "relatedEvidenceLocation": {
-                  "rule": "REACT_14",
+                  "rule": "REACT_2",
                   "exactLocation": true
                 }
               }
@@ -1364,321 +1382,6 @@
               {
                 "title": "React + TypeScript: Working with Props and Types of Props",
                 "url": "https://www.kindacode.com/article/react-typescript-working-with-props-and-types-of-props/"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "HYPOTHESIS_15",
-      "hypothesis": "Event propagation from child to parent component is causing unintended side effects.",
-      "description": "When an event is triggered in the child component, it propagates to the parent component, leading to unintended effects. By calling event.stopPropagation() in the child component's event handler, we prevent the event from bubbling up to the parent component, which should resolve the issue.",
-      "tags": [
-        "event propagation",
-        "parent-child components",
-        "event handling"
-      ],
-      "evidence": [
-        {
-          "rule": "REACT_15",
-          "description": "Child component triggers the handleParentClick event handler in the parent component due to event propagation, causing unintended side effects.",
-          "isFound": true,
-          "DoesContainTheDefect": true,
-          "HowToFix": {
-            "steps": [
-              {
-                "description": "Add event.stopPropagation() in the child event handler to prevent the event from bubbling up to the parent component.",
-                "relatedEvidenceLocation": {
-                  "rule": "REACT_15",
-                  "exactLocation": true
-                }
-              },
-              {
-                "description": "Ensure proper event binding and handle asynchronous operations correctly.",
-                "relatedEvidenceLocation": {
-                  "rule": "REACT_15",
-                  "exactLocation": false
-                }
-              },
-              {
-                "description": "Understanding React's synthetic events and React's event system can help in avoiding and resolving these issues.",
-                "relatedEvidenceLocation": {
-                  "rule": "REACT_15",
-                  "exactLocation": false
-                }
-              }
-            ],
-            "links": [
-              {
-                "title": "How to call stopPropagation in reactjs",
-                "url": "https://stackoverflow.com/questions/35914680/how-to-call-stoppropagation-in-reactjs"
-              },
-              {
-                "title": "Event Listeners In React Version 16 and before VS Version 17+",
-                "url": "https://www.freecodecamp.org/news/event-propagation-event-bubbling-event-catching-beginners-guide/"
-              },
-              {
-                "title": "Best Practices for Handling Events in React",
-                "url": "https://dev.to/sidramaqbool/handling-events-in-react-with-best-practices-and-examples-1d75"
-              },
-              {
-                "title": "Using event.stopPropagation() in React",
-                "url": "https://blog.logrocket.com/event-bubbling-capturing-react/"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "HYPOTHESIS_16",
-      "hypothesis": "The child component is attempting to update a prop directly, violating the intended data flow and causing unexpected behavior in the web application.",
-      "description": "The child component's direct update of a prop leads to state inconsistency and unexpected outcomes, as the web application's data flow is disrupted. Proper data management practices, such as lifting state to the parent component and passing updated state as props, should be followed to maintain a consistent data flow and prevent such bugs.",
-      "tags": ["child component", "state management"],
-      "evidence": [
-        {
-          "rule": "REACT_16",
-          "description": "In this case, the ChildComponent is trying to update the count prop directly. This violates React's one-way data flow and leads to state inconsistency and unexpected outcomes.",
-          "isFound": true,
-          "DoesContainTheDefect": true,
-          "HowToFix": {
-            "steps": [
-              {
-                "description": "Lift the state to the parent component",
-                "relatedEvidenceLocation": {
-                  "rule": "REACT_16",
-                  "exactLocation": true
-                }
-              },
-              {
-                "description": "Pass down the updated state as props to the child component",
-                "relatedEvidenceLocation": {
-                  "rule": "REACT_16",
-                  "exactLocation": true
-                }
-              }
-            ],
-            "links": [
-              {
-                "title": "React: why child component doesn't update when prop changes?",
-                "url": "https://stackoverflow.com/questions/38892672/react-why-child-component-doesnt-update-when-prop-changes"
-              },
-              {
-                "title": "React Child Component Not Updating After Parent State Change?",
-                "url": "https://stackoverflow.com/questions/41233458/react-child-component-not-updating-after-parent-state-change"
-              },
-              {
-                "title": "How can update props in child component functional component?",
-                "url": "https://stackoverflow.com/questions/71689511/how-can-update-props-in-child-component-functional-component"
-              },
-              {
-                "title": "How to force-refresh a React child component: the easy way",
-                "url": "https://www.freecodecamp.org/news/force-refreshing-a-react-child-component-the-easy-way-6cdbb9e6d99c/"
-              },
-              {
-                "title": "React- How to update child prop based on parent state?",
-                "url": "https://stackoverflow.com/questions/52099229/react-how-to-update-child-prop-based-on-parent-state"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "HYPOTHESIS_17",
-      "hypothesis": "Incorrect event binding leads to unintended behavior in web applications.",
-      "description": "When event handlers are incorrectly bound in web applications, it can result in unintended behavior such as events triggering on the wrong elements or using incorrect data. Common issues include closure-related bugs, binding to the wrong elements, or failing to remove event listeners properly, leading to unexpected consequences in the application's functionality.",
-      "tags": ["event binding"],
-      "evidence": [
-        {
-          "rule": "REACT_17",
-          "description": "In this example, a button is rendered inside a loop, and an event handler is assigned to each button. However, due to incorrect event binding, all buttons end up triggering the last button's event handler.",
-          "isFound": true,
-          "doesContainTheDefect": true,
-          "howToFix": {
-            "steps": [
-              {
-                "description": "Use the .bind method or arrow functions to ensure the correct 'this' context within the event handler.",
-                "relatedEvidenceLocation": {
-                  "rule": "REACT_17",
-                  "exactLocation": true
-                }
-              },
-              {
-                "description": "Avoid defining the event handlers inside the render method to prevent creating a new event handler on each render.",
-                "relatedEvidenceLocation": {
-                  "rule": "REACT_17",
-                  "exactLocation": false
-                }
-              }
-            ],
-            "links": [
-              {
-                "title": "The best way to bind event handlers in React",
-                "url": "https://www.freecodecamp.org/news/the-best-way-to-bind-event-handlers-in-react-282db2cf1530/"
-              },
-              {
-                "title": "Handling Events in React",
-                "url": "https://reactjs.org/docs/handling-events.html"
-              },
-              {
-                "title": "Binding event handlers in React",
-                "url": "https://dev.to/thecodess/binding-event-handlers-in-react-2d34"
-              },
-              {
-                "title": "React onClick event handlers guide",
-                "url": "https://blog.logrocket.com/react-onclick-event-handlers-guide/"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "HYPOTHESIS_18",
-      "hypothesis": "Dynamic lists in the web app are missing or have incorrect unique key props, leading to inefficient updates and potential rendering issues.",
-      "description": "When dynamically rendering lists in a web app, it is crucial to provide each list item with a unique and stable key prop. Missing or using incorrect key props can cause React (or other rendering frameworks) to inefficiently update the list, potentially leading to unexpected rendering behavior and performance issues.",
-      "tags": ["dynamic lists", "unique key props"],
-      "evidence": [
-        {
-          "rule": "REACT_18",
-          "description": "In this example, a list of items is dynamically rendered using the map method. However, the items in the list do not have unique key prop values.",
-          "isFound": true,
-          "DoesContainTheDefect": true,
-          "HowToFix": {
-            "steps": [
-              {
-                "description": "Ensure that each item in the list has a unique key prop. The key prop can be any string, but it must be unique among its siblings in the list. It should also remain stable between renders, so it should not be generated on-the-fly during each render.",
-                "relatedEvidenceLocation": {
-                  "rule": "REACT_18",
-                  "exactLocation": false
-                }
-              },
-              {
-                "description": "If necessary, combine several fields into one unique ID for the key prop. For example, if each item has a 'name' and 'id' field, the key could be a combination of these two fields: `${item.name}_${item.id}`.",
-                "relatedEvidenceLocation": {
-                  "rule": "REACT_18",
-                  "exactLocation": false
-                }
-              }
-            ],
-            "links": [
-              {
-                "title": "React Documentation: Lists and Keys",
-                "url": "https://reactjs.org/docs/lists-and-keys.html"
-              },
-              {
-                "title": "StackOverflow: How to create unique keys for React elements",
-                "url": "https://stackoverflow.com/questions/39549424/how-to-create-unique-keys-for-react-elements"
-              },
-              {
-                "title": "StackOverflow: I am getting a unique key prop warning when i have a unique key",
-                "url": "https://stackoverflow.com/questions/55296566/i-am-getting-a-unique-key-prop-warning-when-i-have-a-unique-key"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "HYPOTHESIS_19",
-      "hypothesis": "Incorrect prop type defined for 'content' in MyComponent",
-      "description": "The 'content' prop in MyComponent is defined with a PropTypes.number.isRequired, but it should be defined with PropTypes.string.isRequired since the content is expected to be a string. This mismatch between the expected prop type and the actual prop type being passed can lead to unexpected behavior or errors.",
-      "tags": [
-        "improper prop type",
-        "PropTypes mismatch",
-        "React component bug"
-      ],
-      "evidence": [
-        {
-          "rule": "REACT_19",
-          "description": "The 'content' prop in MyComponent is defined with a PropTypes.number.isRequired, while it should be defined with PropTypes.string.isRequired. This can lead to unexpected behavior or errors.",
-          "isFound": true,
-          "DoesContainTheDefect": true,
-          "HowToFix": {
-            "steps": [
-              {
-                "description": "Change the prop type definition for 'content' in MyComponent from PropTypes.number.isRequired to PropTypes.string.isRequired.",
-                "relatedEvidenceLocation": {
-                  "rule": "REACT_19",
-                  "exactLocation": true
-                }
-              }
-            ],
-            "links": [
-              {
-                "title": "How to validate React props using PropTypes",
-                "url": "https://blog.logrocket.com/validate-react-props-proptypes/"
-              },
-              {
-                "title": "React propTypes component class?",
-                "url": "https://stackoverflow.com/questions/45315918/react-proptypes-component-class"
-              },
-              {
-                "title": "Creating Predictable Props with PropTypes and defaultProps",
-                "url": "https://www.digitalocean.com/community/tutorials/how-to-customize-react-components-with-props"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "HYPOTHESIS_20",
-      "hypothesis": "Unexpected behavior due to asynchronous event handling",
-      "description": "The handleClick method in MyComponent uses async/await to simulate an asynchronous event handling process. This can lead to unexpected behavior, as the asynchronous operation might not complete before the component is unmounted or before other synchronous operations are executed. This can result in console logs or other side effects occurring at unexpected times.",
-      "tags": [
-        "asynchronous event handling",
-        "unexpected behavior",
-        "React component bug"
-      ],
-      "evidence": [
-        {
-          "rule": "REACT_20",
-          "description": "Asynchronous event handling in handleClick method of MyComponent causing unexpected behavior",
-          "isFound": true,
-          "DoesContainTheDefect": true,
-          "HowToFix": {
-            "steps": [
-              {
-                "description": "Navigate to the handleClick method in MyComponent.",
-                "relatedEvidenceLocation": {
-                  "rule": "REACT_20",
-                  "exactLocation": true
-                }
-              },
-              {
-                "description": "Use a reference to track whether the component is still mounted when the asynchronous operation completes.",
-                "relatedEvidenceLocation": {
-                  "rule": "REACT_20",
-                  "exactLocation": true
-                }
-              },
-              {
-                "description": "Check if the component is still mounted before setting the state or executing other side effects.",
-                "relatedEvidenceLocation": {
-                  "rule": "REACT_20",
-                  "exactLocation": true
-                }
-              }
-            ],
-            "links": [
-              {
-                "title": "How To Handle Async Data Loading, Lazy Loading, and Code Splitting with React",
-                "url": "https://www.digitalocean.com/community/tutorials/how-to-handle-async-data-loading-lazy-loading-and-code-splitting-with-react"
-              },
-              {
-                "title": "React async event handler. The safe way?",
-                "url": "https://stackoverflow.com/questions/65400968/react-async-event-handler-the-safe-way"
-              },
-              {
-                "title": "Correctly handling async/await in React components",
-                "url": "https://blog.alexandrudanpop.dev/posts/correctly-handling-async-await-in-react-components-4h74/"
-              },
-              {
-                "title": "Async Event Handlers in React",
-                "url": "https://medium.com/@ian.mundy/async-event-handlers-in-react-a1590ed24399"
               }
             ]
           }
